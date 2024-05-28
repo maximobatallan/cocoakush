@@ -185,20 +185,9 @@ def tienda(request):
 
 
 def agregar_producto(request, producto_id):
-    link = str(request.POST.get('link'))
     carrito = Carrito(request)
-    
-    cantidad = int(request.POST.get('cantidad'))
-  
-   
     producto = Producto.objects.get(id=producto_id)
-    carrito.agregar(link, producto, cantidad)
-    
-    
-
-   
-
-
+    carrito.agregar(producto)
     return redirect("cart")
  
 

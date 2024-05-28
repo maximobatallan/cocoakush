@@ -1,4 +1,3 @@
-import random
 class Carrito:
     def __init__(self, request):
         self.request = request
@@ -10,86 +9,24 @@ class Carrito:
         else:
             self.carrito = carrito
 
-    def agregar(self, link, producto, cantidad):
-        
-
-        
+    def agregar(self, producto):
 
         id = str(producto.id)
-
-        
         if id not in self.carrito.keys():
             self.carrito[id]={
                 "producto_id": producto.id,
                 "nombre": producto.nombre,
-                "codigo": producto.descripcion,
-                "acumulado": cantidad *producto.precio,
-                "cantidad": cantidad,
-                "link": link,
+                "acumulado": producto.precio,
+                "cantidad": 1,
                 "imagen": str(producto.imagen),
                 "precio": producto.precio,
-                "precio2": producto.precio2,
-                "precio3": producto.precio3,
-                "precio4": producto.precio4,
-                "precio5": producto.precio5,
-                
-                
-                
                 "precioanterior": int(producto.precio *1.25),
             }
        
         else:
-           
-            id = str(int(id)+random.randint(1,100000))
-            self.carrito[id]={
-                "producto_id": producto.id,
-                "nombre": producto.nombre,
-                "acumulado": cantidad *producto.precio,
-                "codigo": producto.descripcion,
-                "cantidad": cantidad,
-                "link": link,
-                "imagen": str(producto.imagen),
-                "precio": producto.precio,
-                "precio2": producto.precio2,
-                "precio3": producto.precio3,
-                "precio4": producto.precio4,
-                "precio5": producto.precio5,
-                "precioanterior": int(producto.precio *1.25),
-            }
-
-        if cantidad <= 500:
+            self.carrito[id]["cantidad"] += 1
+            self.carrito[id]["acumulado"] += producto.precio
             
-            
-            self.carrito[id]["precio"] = self.carrito[id]["precio"]
-            
-        elif 500 < cantidad <= 1000:
-          
-            self.carrito[id]["precio"] = self.carrito[id]["precio2"]
-
-
-
-        elif 1000 < cantidad <= 2000:
-           
-
-
-            self.carrito[id]["precio"] = self.carrito[id]["precio3"]
-
-
-
-        elif  2000 < cantidad <= 5000:
-            
-            self.carrito[id]["precio"] = self.carrito[id]["precio4"]
-        else:
-
-            
-            self.carrito[id]["precio"] = self.carrito[id]["precio5"]
-    
-
- 
-
-
-
-
         self.guardar_carrito()
 
     def guardar_carrito(self):
@@ -97,7 +34,7 @@ class Carrito:
         self.session.modified = True
 
     def eliminar(self, producto):
-        id = str(producto)
+        id = str(producto.id)
         if id in self.carrito:
             del self.carrito[id]
             self.guardar_carrito()
@@ -115,5 +52,5 @@ class Carrito:
         self.session.modified = True
         
     def limpiaritem(self, producto):
-        self.eliminar(str(producto))
+        self.eliminar(producto)
         self.session.modified = True
