@@ -21,121 +21,20 @@
 {% endblock %}
 
 
-
 {% block content %}
-<!--  banner  -->
-
-
-
-
-
-<!--  banner  -->
-
-
-<!--  breadcrumb start  -->
-<div class="breadcrumb-area services-breadcrumb-bg">
-   <div class="container">
-      <div class="row">
-         <div class="col-xl-6 col-lg-8">
-            <div class="hero-txt">
-               <span class="wow fadeInDown" data-wow-duration="1.5s">Aumenta el Alcance</span>
-               <h1 class="wow fadeInUp" data-wow-duration="1.5s"> Seguidores para tus Redes</h1>
-               <div style="text-align: center;">
-                  
-          
-               
-                 <a class="wow fadeInUp boxed-btn" data-wow-duration="1.5s" href="#galeria"><span>Paquetes de Oferta</span></a> 
-
-               </div>   
-            </div>
-         </div>
-      </div>
-   </div>
-
-     
-   </div>
-   <div class="hero-overlay"></div>
-</div>
-<!--  breadcrumb end  -->
+{% include "portada.html" %}
 {% include "banner.html" %}
 
+{% include "galeria.html" %}
+
+{% include "consulta.html" %}
+{% include "llamadoalaccion.html" %}
+{% include "reseñas.html" %}
 {% include "QA.html" %}
-<!--    Gallery section start   -->
-
-<div id="galeria" class="gallery-section blog-grid">
-   <div class="container">
-
-      {% for key, value_list in categorias_productos.items %}
-
-      <h2 class="subtitle">{{ key }}</h2>
-
-      <div class="row" style="padding-bottom: 120px; ">
-         {% for value in value_list %}
-         {% for producto in productos %}
-         {% if producto.id == value %}
-         <div class="col-lg-4 col-md-6" style="padding-bottom: 115px;">
-            <div class="single-pic wow fadeInRight" data-wow-duration="1.5s">
-               <a href="{% url 'PD' value %}">
-                  <img src="https://imgec.s3.sa-east-1.amazonaws.com/{{ producto.imagen }}" alt="{{ producto.nombre }}"
-                     width="20">
-               </a>
-
-               <div class="single-pic-overlay"></div>
-               <div class="txt-icon">
-                  <div class="outer">
-                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, -50%);">
-                        <h4>{{ producto.nombre }}</h4>
-                     </a>
-                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, 90%);"
-                        class="icon-wrapper"  data-title="{{ producto.nombre }}">
-                        <i class="fas fa-heart"></i>
-                     </a>
-
-                    
-                  </div>
-                  <br>
-
-                  
-                  <div style="text-align: center;">
-
-                     <form method="post" action="{% url 'Add' value %}">
-                        {% csrf_token %}
-                        <div class="form-element">
-                       
-                            <select name="cantidad" id="cantidad">
-                                
-                                <option value="500">Cantidad 500</option>
-                                <option value="1000" selected>Cantidad: 1.000</option>
-                                <option value="2000">Cantidad: 2.000</option>
-                                <option value="5000">Cantidad: 5.000</option>
-                            </select>
-                        </div>
-                        <div class="form-element">
-                           <input type="text" name="link" id="link" placeholder="Introduce el Link">
-                       </div>
-                       
-                        <button type="submit" class="cartbtn"><span><i class="fa fa-shopping-cart"></i> Agregar al Carrito</span></button>
-                    </form>
-                  </div>
-                
-
-               </div>
-            </div>
-
-            <br><br><br><br>
-         </div>{% endif %}
-         {% endfor %}
-         {% endfor %}
-      </div>
-      {% endfor %}
-   </div>
-</div>
 
 {% include "quienessomos.html" %}
 
 
-
-{% include "consulta.html" %}
 
 {% include "footer.html" %}
 <script src="{% static 'js/popper.min.js' %}"></script>

@@ -1,0 +1,77 @@
+ <!--    Gallery section start   -->
+         
+ <div class="gallery-section blog-grid">
+   <div class="container">
+      
+        {% for key, value_list in categorias_productos.items %}
+        
+        <h2 class="subtitle">{{ key }}</h2>
+           
+                 <div class="row">
+                 {% for value in value_list %}
+                 {% for producto in productos %}
+                 {% if producto.id == value %}
+                 <div class="col-lg-4 col-md-6">
+                    <div class="single-pic wow fadeInRight" data-wow-duration="1.5s">
+                 <a href="{% url 'PD' value %}">
+                    <img src="https://imgec.s3.sa-east-1.amazonaws.com/{{ producto.imagen }}" alt="{{ producto.nombre }}" width="20">
+                 </a>
+                 
+              <div class="single-pic-overlay" ></div>
+                 <div class="txt-icon" >
+                  <div class="outer" >
+                     <div class="inner" >
+                        <h4>{{ producto.nombre }}</h4>
+                          <a class="icon-wrapper" href="{% url 'PD' value %}" data-title="{{ producto.nombre }}">
+                             <i class="fas fa-heart"></i>
+                          </a>
+                          
+                     </div>
+                     
+                       <a href="{% url 'PD' value %}" class="cartbtn">
+                          <span > ${{ producto.precio }}</span>
+                      </a>
+  
+                    
+                       
+               
+                 </div><br>
+                 <div style="text-align: center;">
+                 
+                    <a href="{% url 'Add' value %}" id="comprar" class="cartbtn" ><span><i class="far fa-shopping-cart"></i> Comprar</span></a>
+                </div>
+               
+                 
+              </div>
+           </div>
+          
+           <br><br><br><br>
+         </div>{% endif %}
+         {% endfor %}
+              {% endfor %}
+           </div>
+         {% endfor %}
+       </div>
+     </div>
+         <div class="row">
+           <div class="col-lg-12">
+              <nav class="pagination-nav">
+                 <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                       <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                       <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                    </li>
+                 </ul>
+              </nav>
+              
+           </div>
+        </div>
+        
+     </div>
+     
+  </div>
