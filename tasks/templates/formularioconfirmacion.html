@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+    
+   <!--     Shipping Address Start      -->   
+               
+   <div class="container">
+    <div class="row">
+       <div class="col-lg-12">
+          <div class="card">
+             <div class="card-header">
+                <h1>Confirmación de Envio</h1>
+             </div>
+          </div><br><br>
+       </div>
+       <div class="col-lg-6">
+          <div class="form-element">
+            <h5>Nos estaremos contactando a la brevedad, gracias por su mensaje</h5>
+          </div>
+       </div>
+       <div class="col-lg-6">
+        <div class="form-element">
+            <a class="cartbtn shop" href="{% url 'gallery' %}" style="text-align: left;">Galeria</a>
+           
+        </div>
+     </div>
+       
+       
+    </div>
+ </div>
+</div>
+
+<!--     Shipping Address End      -->
+                    {% include "footer.html" %}
+                    {% endblock %}
+                   
+
+

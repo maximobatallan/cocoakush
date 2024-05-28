@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+    
+    <main class="container">
+        <div class="row">
+            <section class="col-md-4 offset-md-4 mt-5 mb-5">
+                
+                    <h1 class='text-center'>Datos Bancarios:</h1>
+
+               
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                    
+                        <h1 class='text-center'>{{ cbu }}</h1>
+                    </div>
+
+                    <div class="mb-3">
+                      
+                        <h1 class='text-center'>{{ titular }}</h1>
+                    </div>
+
+                    
+            </section>   
+        </div>
+    </main>
+                    {% include "footer.html" %}
+                    {% endblock %}
+                   
+
+

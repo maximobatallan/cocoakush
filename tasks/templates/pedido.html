@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+    
+<main class="container">
+    <div class="row">
+        <section class="col-md-8 offset-md-2 mt-5 mb-5">
+            <h2 class='text-center'>¡Su pedido fue procesado con éxito!</h2>
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos_para_comprar %}
+                <tr>
+                    <td>{{ producto.cantidad }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.link }}</td>
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+            <a class='text-justify'>El procesamiento del servicio suele tardar no más de 15 minutos, puede extenderse hasta 24 horas según la demanda, sino recibio el servicio contactenos a través del WhatsApp para solucionarlo. <br><br>Gracias por confiar en ImpulSocial.</a>
+        </section>   
+    </div>
+</main>
+                    {% include "footer.html" %}
+                    {% endblock %}
+                   
+
+

@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% load static%}
+{% block head %}
+    {{ block.super }}
+    
+    <!-- easyzoom css -->
+    <link rel="stylesheet" href="{% static 'css/easyzoom.css' %}">
+      <!-- slicknav css -->
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+    <!-- jquery ui css -->
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+  
+    
+{% endblock %}
+
+   
+{% block content %}
+   <body>
+     
+      
+              <!--  Cart Table Start  --> 
+              <div class="cart-table">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-lg-12">
+                      {% if request.session.carrito.items %}
+                        <div class="table-responsive">
+                           <table class="table table-bordered">
+                              <thead>
+                                 <tr>
+                                    <th scope="col">Borrar</th>
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">link</th>
+                                    <th scope="col">Titulo</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Total</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+       
+                               
+                               {% for key, value in request.session.carrito.items %}
+                                 <tr>
+                                    <td class="action">
+                                    
+                                       <a href="{% url 'CLSK' key %}"><i class="far fa-trash-alt"></i></a>
+                                    </td>
+                                    <td>
+                                     <a href="{% url 'PD' key %}">
+                                        <img src="https://imgec.s3.sa-east-1.amazonaws.com/{{ value.imagen }}" width="200" class="table-img">
+                                    </a>
+                                    <td class="total"><span>{{ value.link }}</span></td>
+                                     
+                                    </td>
+                                    <td class="title"><a class="title" href="{% url 'PD' key %}">{{ value.nombre }}</a></td>
+                                   
+                                    <td>
+                                       <input class="quantity" type="number" name="quantity" value= {{ value.cantidad }} min="1" disabled>
+                                    </td>
+                                    <td class="total"><span>$ {{ value.precio }}</span></td>
+                                 </tr>
+                            {% endfor %}
+                            <td colspan="6">
+                              
+      
+                               <div class="cartbtn-container">
+                                  <a class="cartbtn shop" href="{% url 'gallery' %}">Galeria</a>
+                                  <a class="cartbtn cart" href="#detallecompra">Ir a Pagar</a>
+                         
+         {% else %}
+                                
+       
+                 <div class="alert alert-danger text-center"> Sin Productos </div>
+                 
+                 <a class="cartbtn shop" href="{% url 'gallery' %}" style="text-align: left;">Galeria</a>
+       
+       
+         {% endif %}
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                      
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!--  Cart Table Area End  --> 
+            <div class="cta-section cta-bg">
+               <div class="container">
+                  <div class="cta-container">
+                     <div class="row align-items-center">
+                        <div class="col-lg-9 d-flex justify-content-center align-items-center">
+                           <h2 style="text-align: center;" class="mb-lg-0 text-center text-lg-left mr-lg-3">Atención:</h2>
+                           <h4 style="text-align: center;" class="mb-lg-0 text-center text-lg-left">Recuerde que su perfil debe ser público</h4>
+                       </div>
+                       
+                      
+                     </div>
+                  </div>
+               </div>
+               <div class="cta-overlay"></div>
+            </div>
+      
+            <div id="detallecompra" class="container">
+               <div class="row">
+            <div class="col-lg-12" style="padding-bottom: 22px;">
+            <div class="card">
+               <div class="card-header">
+                  <h5 style="color: #1a0028;">Cupón de Descuento</h5>
+               </div>
+               <div class="card-body">
+                  <form method="post">
+                     {% csrf_token %}
+                     
+                     <div class="coupon-input">
+                        <input type="text" name="cupon_nombre" placeholder="Ingresa cupón">
+                        <button type="submit">Aplicar</button>
+                     </div>
+                  </form>
+               </div>
+            </div>      </div>      </div></div>
+
+       
+   
+
+
+
+
+
+         <div id="detallecompra" class="container">
+            <div class="row">
+               <div class="col-lg-12" style="padding-bottom: 22px;">
+                  <div class="card">
+                     <div class="card-header">
+                        <h5 style="color: #1a0028;">Detalle de Compra</h5>
+                     </div>
+                     <div class="card-body">
+                        {% if cupon_encontrado %}
+                        <div class="calculations">
+                           <div class="single-calc">
+                              <strong>Subtotal</strong>
+                              <strong>  <del>$ {{ subtotal }}</del></strong>
+                           </div>
+                        
+
+                              <div class="single-calc">
+                                 <strong>Descuento de {{ nombrecupon }}</strong>
+                                 <strong>{{ descuento }}%</strong>
+                              </div>
+                              <div class="single-calc total">
+                              
+
+                                 <strong>Total</strong>
+
+                                 <strong>$ {{ total_compra }}</strong>
+                              
+                              
+                            
+                              </div>
+                            
+                             
+                        </div>
+
+                           {% else %}
+
+                           <div class="calculations">
+                   
+                              <div class="single-calc total">
+                             
+                        
+                              <strong>Total</strong>
+                              <strong>$ {{ total_compra }}</strong>
+                              {% endif %}
+                           </div>
+
+
+
+
+
+
+
+                        </div>
+                     <br>
+                           <div class="row">
+                              
+                              <div class="col-lg-8">
+                              
+                              </div>
+                              <div class="col-lg-4">
+                                 
+                                    <div id="wallet_container"></div>
+                              
+                              </div>
+                           </div>
+                    
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!--  Cart Cards Area End  -->  
+      
+      {% if nombrecupon != 1 %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var nombrecupon = "{{ nombrecupon }}";
+                if (typeof nombrecupon === 'string') {
+                    var detallecompraElement = document.getElementById('detallecompra');
+                    if (detallecompraElement) {
+                        detallecompraElement.scrollIntoView();
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+      
+      <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+     
+    
+      <script>
+        const mp = new MercadoPago('APP_USR-f98a79c9-89ef-4891-9215-ff35a331df51');
+        const bricksBuilder = mp.bricks();
+      
+        mp.bricks().create("wallet", "wallet_container", {
+          initialization: {
+            preferenceId: "{{ preference_id }}",
+          },
+        });
+      </script>
+      
+      {% include "footer.html" %}
+      
+      
+   
+
+
+
+         
+      <!-- popper js -->
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <!-- bootstrap js -->
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <!-- owl carousel js -->
+      <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+      <!-- isotope js -->
+      <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+      <!-- isotope js -->
+
+
+      <script src="{% static 'js/pricing-range.js' %}"></script>
+      <!-- easyzoom js -->
+      <script src="{% static 'js/easyzoom.js' %}"></script>
+      <!-- slicknav js -->
+      <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+      
+
+      <!-- jquery ui js -->
+      <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+      <!-- wow js -->
+      <script src="{% static 'js/wow.min.js' %}"></script>
+      <!-- main js -->
+      <script src="{% static 'js/main.js' %}"></script>
+   </body>
+   {% endblock %}
+</html>

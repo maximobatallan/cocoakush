@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% load static%}
+{% block head %}
+    {{ block.super }}
+    
+    <!-- easyzoom css -->
+    <link rel="stylesheet" href="{% static 'css/easyzoom.css' %}">
+    <!-- rateyo css -->    
+    <link rel="stylesheet" href="{% static 'css/jquery.rateyo.css' %}">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- slicknav css -->
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+    <!-- jquery ui css -->
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+  
+    
+{% endblock %}
+
+
+
+
+        {% block content %}
+              
+      <!-- product details begin -->
+      <div class="product-details">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-5">
+                  <div class="product-preview">
+                     <div class="easyzoom easyzoom--overlay">
+                        <a href="#">
+                        <img class="single-image" src="#" alt=""/>
+                        </a>
+                     </div>
+                  </div>
+                  <div class="product-thumb-slider owl-carousel owl-theme">
+                     <div class="single-product">
+                        <img class="small" src="https://imgec.s3.sa-east-1.amazonaws.com/{{ productos.imagen }}" alt="{{ productos.nombre }}" width="20">
+                        <img class="big" src="https://imgec.s3.sa-east-1.amazonaws.com/{{ productos.imagen }}" alt="{{ productos.nombre }}" width="20">
+                     </div>
+                     
+                     <div class="single-product">
+                        <img class="small" src="https://imgec.s3.sa-east-1.amazonaws.com/{{ productos.imagen1 }}" alt="{{ productos.nombre }}" width="20">
+                        <img class="big" src="https://imgec.s3.sa-east-1.amazonaws.com/{{ productos.imagen1 }}" alt="{{ productos.nombre }}" width="20">
+                     </div>
+
+                     <div class="single-product">
+                        <img class="small" src="https://imgec.s3.sa-east-1.amazonaws.com/{{ productos.imagen2}}" alt="{{ productos.nombre }}" width="20">
+                        <img class="big" src="https://imgec.s3.sa-east-1.amazonaws.com/{{ productos.imagen2 }}" alt="{{ productos.nombre }}" width="20">
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-7">
+                  <div class="content">
+                     <h4 class="title">{{ productos.nombre }}</h4>
+                     <div class="rate">
+                        <div class="rating" style="width:100%"></div>
+                     </div>
+                     <span>(53)</span>
+                     <div class="price">
+                        <span>${{ productos.precio }}</span>
+                        <del>{{ productos.precioanterior }}</del>
+                     </div>
+                     <div class="desc">
+                        <p>{{ productos.descripcion }}</p>
+                     </div>
+                     <form method="POST" class="product-details-form" action="{% url 'signin' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                           <div class="col-lg-6">
+                              <div class="filter color">
+                                 <h6 class="label">Color :</h6>
+                                 <label class="container">Rojo
+                                 <input type="radio" name="color">
+                                 <span class="checkmark red"></span>
+                                 </label>
+                                 <label class="container">Verde
+                                 <input type="radio" name="color">
+                                 <span class="checkmark green"></span>
+                                 </label>
+                                 <label class="container">Purpura
+                                 <input type="radio" name="color">
+                                 <span class="checkmark purple"></span>
+                                 </label>
+                               
+                              </div>
+                           </div>
+                           <div class="col-lg-6 mb-2">
+                              <h6 class="label">Tamaño :</h6>
+                              <select name="size" id="">
+                                 <option value="" selected disabled>Seleccionar tamaño</option>
+                                 <option value="xxl">XXL</option>
+                                 <option value="xl">XL</option>
+                                 <option value="l">L</option>
+                                 <option value="m">M</option>
+                                 <option value="s">S</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-12">
+                              <h6 class="label">Tipo de Arte :</h6>
+                              <div class="filter">
+                                 <label class="container">Barroco
+                                 <input type="checkbox" name="brands[]">
+                                 <span class="checkmark"></span>
+                                 </label>
+                                 <label class="container">Deco
+                                 <input type="checkbox" name="brands[]">
+                                 <span class="checkmark"></span>
+                                 </label>
+                                 <label class="container">Nouveau
+                                 <input type="checkbox" name="brands[]">
+                                 <span class="checkmark"></span>
+                                 </label>
+                                 <label class="container">Realista
+                                 <input type="checkbox" name="brands[]">
+                                 <span class="checkmark"></span>
+                                 </label>  
+                                 <label class="container">Bauhaus
+                                 <input type="checkbox" name="brands[]">
+                                 <span class="checkmark"></span>
+                                 </label> 
+                                 <label class="container">Fauvismo
+                                 <input type="checkbox" name="brands[]">
+                                 <span class="checkmark"></span>
+                                 </label>   
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row align-items-end mb-3">
+                           <div class="col-lg-6">
+                              <h6 class="label">Cantidad :</h6>
+                              <input type="number" name="quantity" placeholder="Quantity" min="1">
+                           </div>
+                           <div class="col-lg-6">
+                              
+                           </div>
+                        </div>
+                        <div class="actions">
+                           <div class="row">
+                              {% if not user.is_authenticated %}
+                              <div class="col-lg-4">
+                                 
+                                 
+
+                                 <button name="submit_post" formaction="{% url 'Add' productos.id %}" class="wishlist">
+                                    <i class="far fa-heart"></i>Agregar a Carrito</button>
+                              </div>
+                 
+                              <div class="col-lg-4">
+
+                              </div>
+                              
+                              <div class="col-lg-4">
+                                
+                                    <button name="submit_get" formaction="{% url 'signin' %}"class="wishlist">
+                                    <i class="far fa-heart"></i>Iniciar Sesión</button>
+
+                             </div>
+                               
+
+                            
+                                 {% else %}
+                              <div class="col-lg-4">
+                                 <button name="submit_post" formaction="{% url 'Add' productos.id %}" class="wishlist">
+                                    <i class="far fa-heart"></i>Agregar a Carrito</button>
+                              </div>
+                              <div class="col-lg-4">
+
+                              </div>
+                              {% if request.session.carrito.items %}
+                              
+                              <div class="col-lg-4">
+                                 <button name="submit_post" formaction="{% url 'cart' %}"> 
+                                 <i class="fas fa-shopping-cart"></i>Ir a Pagar </button></div>
+                                 {% else %}
+
+                              <div class="col-lg-4">
+
+                              </div>
+
+
+                              
+                              {% endif %}
+                             
+                              {% endif %}
+                           </div>
+                        </div>
+                     </form>
+             
+                  </div>
+               </div>
+            </div>
+         </div>
+
+        
+               <!--   Product Details Tabs Start    -->
+               <div class="container product-infos">
+                  <div class="row">
+                     <div class="col-lg-9">
+                        <nav>
+                           <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                              <a class="nav-item nav-link active" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">Descripcion</a>
+              
+                           </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                           <div class="tab-pane fade specifications show active" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">
+                              <table class="table table-striped table-bordered">
+                                 <tbody>
+                                    <tr>
+                                       <th scope="row">Tipo</th>
+                                       <td>{{ productos.nombre }}</td>
+                                    </tr>
+                                    <tr>
+                                       <th scope="row">Material</th>
+                                       <td>Semi-Metal</td>
+                                    </tr>
+                                    <tr>
+                                       <th scope="row">Posicion</th>
+                                       <td>Frontal</td>
+                                    </tr>
+                                    <tr>
+                                       <th scope="row">Certificacion</th>
+                                       <td>ISO/TS16949, TS16949, ISO9001</td>
+                                    </tr>
+                                    <tr>
+                                       <th scope="row">Clasificacion</th>
+                                       <td>Excelencia</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!--   Product Details Tabs End    -->
+            </div>
+            <!-- product details end -->
+            
+            
+            <!--   cta section start    -->
+            {% include "footer.html" %}
+            <!--   cta section end    -->
+            <!-- popper js -->
+        
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <!-- bootstrap js -->
+      <script src="{% static 'js/rating.js' %}"></script>
+      <!-- owl carousel js -->
+      <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+      <!-- isotope js -->
+      <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+      <!-- isotope js -->
+      
+
+      <script src="{% static 'js/pricing-range.js' %}"></script>
+      <!-- easyzoom js -->
+      
+      <script src="{% static 'js/easyzoom.js' %}"></script>
+      <!-- rateyo js -->
+      <script src="{% static 'js/jquery.rateyo.min.js' %}"></script>
+      <!-- rateyo js -->
+      <script src="{% static 'js/rating.js' %}"></script>
+      <!-- slicknav js -->
+      <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+      <!-- jquery ui js -->
+      <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+      <!-- wow js -->
+      
+      <script src="{% static 'js/wow.min.js' %}"></script>
+      <!-- main js -->
+      <script src="{% static 'js/main.js' %}"></script>
+        {% endblock %}

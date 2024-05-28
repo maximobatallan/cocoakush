@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static%}
+{% block head %}
+{{ block.super }}
+
+<!-- easyzoom css -->
+<link rel="stylesheet" href="{% static 'css/easyzoom.css' %}">
+<!-- slicknav css -->
+<link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+<!-- jquery ui css -->
+<link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+<!-- animate css -->
+<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+<!-- main css -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!-- responsive css -->
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+
+
+
+{% block content %}
+<!--  banner  -->
+
+
+
+
+
+<!--  banner  -->
+
+
+<!--  breadcrumb start  -->
+<div class="breadcrumb-area services-breadcrumb-bg">
+   <div class="container">
+      <div class="row">
+         <div class="col-xl-6 col-lg-8">
+            <div class="hero-txt">
+               <span class="wow fadeInDown" data-wow-duration="1.5s">Equipos y Conjuntos deportivos</span>
+               <h1 class="wow fadeInUp" data-wow-duration="1.5s">Personalizá tu camiseta</h1>
+               <div style="text-align: center;">
+                  
+          
+               <a class="wow fadeInUp boxed-btn" data-wow-duration="1.5s" id="enlaceObjetivo"><span>Pedi tu Presupuesto</span></a>
+               </div>   
+            </div>
+         </div>
+      </div>
+   </div>
+
+     
+   </div>
+   <div class="hero-overlay"></div>
+</div>
+<!--  breadcrumb end  -->
+{% include "banner.html" %}
+{% include "quienessomos.html" %}
+
+{% include "consulta.html" %}
+
+<!--    Gallery section start   -->
+
+<div class="gallery-section blog-grid">
+   <div class="container">
+
+      {% for key, value_list in categorias_productos.items %}
+
+      <h2 class="subtitle">{{ key }}</h2>
+
+      <div class="row">
+         {% for value in value_list %}
+         {% for producto in productos %}
+         {% if producto.id == value %}
+         <div class="col-lg-4 col-md-6">
+            <div class="single-pic wow fadeInRight" data-wow-duration="1.5s">
+               <a href="{% url 'PD' value %}">
+                  <img src="https://imgec.s3.sa-east-1.amazonaws.com/{{ producto.imagen }}" alt="{{ producto.nombre }}"
+                     width="20">
+               </a>
+
+               <div class="single-pic-overlay"></div>
+               <div class="txt-icon">
+                  <div class="outer">
+                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, -50%);">
+                        <h4>{{ producto.nombre }}</h4>
+                     </a>
+                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, 90%);"
+                        class="icon-wrapper" href="{% url 'PD' value %}" data-title="{{ producto.nombre }}">
+                        <i class="fas fa-heart"></i>
+                     </a>
+
+                     <a href="{% url 'PD' value %}" class="cartbtn" , style="position: absolute; top: 0; right: 0;">
+                        <span> ${{ producto.precio }}</span>
+                     </a>
+
+                  </div>
+                  <br>
+                  <div style="text-align: center;">
+                     <a href="{% url 'Add' value %}" id="comprar" class="cartbtn"><span><i
+                              class="far fa-shopping-cart"></i> Agregar al Carrito</span></a>
+                  </div>
+
+
+               </div>
+            </div>
+
+            <br><br><br><br>
+         </div>{% endif %}
+         {% endfor %}
+         {% endfor %}
+      </div>
+      {% endfor %}
+   </div>
+</div>
+<div class="row">
+   <div class="col-lg-12">
+      <nav class="pagination-nav">
+         <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+               <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+               <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+            </li>
+         </ul>
+      </nav>
+
+   </div>
+</div>
+
+</div>
+
+</div>
+
+
+{% include "footer.html" %}
+<script src="{% static 'js/popper.min.js' %}"></script>
+<!-- bootstrap js -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- owl carousel js -->
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<!-- isotope js -->
+<script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+<!-- easyzoom js -->
+
+<script src="{% static 'js/lightbox.min.js' %}"></script>
+
+
+<!-- slicknav js -->
+<script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+
+<!-- wow js -->
+
+<script src="{% static 'js/wow.min.js' %}"></script>
+<!-- main js -->
+<script src="{% static 'js/main.js' %}"></script>
+
+<script src="{% static 'js/popup.js' %}"></script>
+
+
+
+{% endblock %}
+
+<div class="cta-overlay"></div>
+
+</html>

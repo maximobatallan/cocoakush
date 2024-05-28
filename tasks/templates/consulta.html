@@ -1,0 +1,55 @@
+<div class="quote-section quote-bg">
+   <div class="container">
+      <div class="row">
+         <div class="offset-lg-5 col-lg-7">
+            <div class="quote-form-section">
+               <span class="title">Consultas</span>
+               <h2 class="subtitle">Respondemos a la brevedad</h2>
+       <form action="{% url 'save_formulario' %}" method="post">
+         {% csrf_token %}
+          <div class="row">
+             <div class="col-md-6">
+                <div class="form-element"><input name="nombre" type="text" placeholder="Nombre" required></div>
+             </div>
+             <div class="col-md-6">
+                <div class="form-element">
+                   <div class="select-wrapper">
+                      <select name="categoria" required>
+                        <option value="Instagram" selected>Instagram</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Tik Tok">Tik Tok</option>
+                        
+                        <option value="X" >X</option>
+                        
+                         <option value="Youtube">Youtube</option>
+                         <option value="Threads">Threads</option>
+                      </select>
+                   </div>
+                </div>
+             </div>
+             <div class="col-md-6">
+                <div class="form-element"><input name="email" type="email" placeholder="Email" required></div>
+             </div>
+             <div class="col-md-6">
+                <div class="form-element"><input name="telefono" type="text" placeholder="Teléfono" required></div>
+             </div>
+             <div class="col-lg-12">
+                <div class="form-element"><textarea name="texto" cols="73" rows="10" placeholder="Escriba su consulta o sugerencia" required></textarea></div>
+             </div>
+
+             <div class="col-lg-12">
+                <div class="form-element mb-12 text-right">
+                    <button type="submit">
+                        <span>Enviar</span>
+                    </button>
+                </div>         
+             </div>
+          </div>
+       </form>
+      </div>
+   </div>
+</div>
+</div>
+</div>
+
+ 

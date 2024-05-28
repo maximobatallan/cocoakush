@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+        {% block content %}
+
+        <form action="{% url 'cargaproducto' %}" method="post" enctype="multipart/form-data" class="car card-body">   
+            {% csrf_token %}      
+            
+
+             
+               
+               <!--     Carga Producto Start      -->   
+               <br>
+                  <div class="container">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <div class="card">
+                              
+                                 <h1>Datos Personales</h1>
+                              
+                           </div><br>
+                        </div>
+                        {{form1}}
+                     </div>   
+                     
+                  </div> 
+                    </div>
+                    <br>
+                    
+            <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-8"></div> <!-- Agregar un margen de 2 columnas a la izquierda -->
+                           
+                                <div class="form-element">
+                                    <button type="submit" class="cartbtn shop" style="text-align: center">Cargar Producto</button>
+                         
+                            </div>
+                            <div class="col-lg-2"></div> <!-- Agregar un margen de 2 columnas a la derecha -->
+                        </div>
+                    </div>
+            
+            <!--     Shipping Address End      -->                 
+         </form>
+               <!--     Carga Producto Address End      -->                 
+            </form>
+
+            <form action="{% url 'datos' %}" method="post" class="car card-body">   
+               {% csrf_token %}     
+
+            <!--     Shipping Address Start      -->   
+            
+               <div class="container">
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <div class="card">
+                           
+                              <h1>Datos Personales</h1>
+                           
+                        </div><br>
+                     </div>
+                     {{form}}
+                     </div>   
+                     
+                  </div> 
+                    </div>
+                  <br>
+                    
+            <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-8"></div> <!-- Agregar un margen de 2 columnas a la izquierda -->
+                           
+                                <div class="form-element">
+                                    <button type="submit" class="cartbtn shop" style="text-align: center">Actualizar Datos</button>
+                         
+                            </div>
+                            <div class="col-lg-2"></div> <!-- Agregar un margen de 2 columnas a la derecha -->
+                        </div>
+                    </div>
+            
+            <!--     Shipping Address End      -->                 
+         </form>
+    {% endblock %}
