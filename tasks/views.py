@@ -329,9 +329,9 @@ def cart(request):
         total_compra = round(total_compra, 2)
         sdk = mercadopago.SDK("APP_USR-5213772683732349-061323-dc5bd7f2a56c2080735653bb6d1901e7-97277305")
         preference_data["back_urls"] = {
-        "success": "https://impulsocial.net/pedido/",
-        "failure": "https://impulsocial.net/pendiente/",
-        "pending": "https://impulsocial.net/pendiente/"
+        "success": "https://cocoakush.ar/pedido/",
+        "failure": "https://cocoakush.ar/pendiente/",
+        "pending": "https://cocoakush.ar/pendiente/"
     }
         preference_data["auto_return"] = "approved"
         
@@ -420,7 +420,7 @@ def catproducto(request, catproducto):
     return render(request, "categoriaproducto.html", {'productos': productos, 'cat': cat})
 
 def send_user_data_email(user_data):
-    subject = 'Impulsocial Consulta'
+    subject = 'Cocoa Kush'
     message = f'{user_data}'
     
 
@@ -587,10 +587,8 @@ def banner6 (request):
 
 
 def nuevacompra(user_data):
-    subject = 'Nueva Venta, ImpulSocial'
+    subject = 'Nueva Venta, Cocoa Kush'
     message = f'{user_data}'
-    
-
     from_email = 'notificaciondepaginaweb@gmail.com'
     recipient_list = ['notificaciondepaginaweb@gmail.com','maximobatallan@gmail.com']
     send_mail(subject, message, from_email, recipient_list)
