@@ -14,7 +14,15 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import requests
-
+import time
+from facebook_business.adobjects.serverside.content import Content
+from facebook_business.adobjects.serverside.custom_data import CustomData
+from facebook_business.adobjects.serverside.delivery_category import DeliveryCategory
+from facebook_business.adobjects.serverside.event import Event
+from facebook_business.adobjects.serverside.event_request import EventRequest
+from facebook_business.adobjects.serverside.gender import Gender
+from facebook_business.adobjects.serverside.user_data import UserData
+from facebook_business.api import FacebookAdsApi
 
 
 def home(request):
@@ -34,7 +42,36 @@ def home(request):
             categorias_productos[categoria].append(id)
         else:
             categorias_productos[categoria] = [id]
-   
+
+    access_token = os.environ.get('access_token_meta')
+    pixel_id = os.environ.get('pixel_id_meta')
+
+
+
+    FacebookAdsApi.init(access_token=access_token)
+
+    user_data_0 = UserData(
+        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+        phones=["d36e83082288d9f2c98b3f3f87cd317a31e95527cb09972090d3456a7430ad4d"]
+    )
+    custom_data_0 = CustomData(
+        value=142.52,
+        currency="USD"
+    )
+    event_0 = Event(
+        event_name="Purchase",
+        event_time=1721622722,
+        user_data=user_data_0,
+        custom_data=custom_data_0,
+        action_source="website"
+    )
+
+    events = [event_0]
+    event_request = EventRequest(
+        events=events,
+        pixel_id=pixel_id
+    )
+    event_response = event_request.execute()
    
 
     return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
