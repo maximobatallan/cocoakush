@@ -23,7 +23,7 @@ from facebook_business.adobjects.serverside.event_request import EventRequest
 from facebook_business.adobjects.serverside.gender import Gender
 from facebook_business.adobjects.serverside.user_data import UserData
 from facebook_business.api import FacebookAdsApi
-
+import os
 
 def home(request):
     productos = Producto.objects.filter(important=True)
