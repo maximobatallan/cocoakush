@@ -62,8 +62,8 @@ def home(request):
         event_name="Purchase",
         event_time=1721622722,
         user_data=user_data_0,
-        custom_data=custom_data_0,
-        action_source="website"
+        custom_data=custom_data_0
+      
     )
 
     events = [event_0]
