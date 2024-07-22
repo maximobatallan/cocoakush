@@ -3,36 +3,33 @@
 <html lang="en">
    <head>
       <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6WBH66ZNX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+         <script async src="https://www.googletagmanager.com/gtag/js?id=G-D6WBH66ZNX"></script>
+         <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
 
-  gtag('config', 'G-D6WBH66ZNX');
-</script>
-
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1133714144380685');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+         gtag('config', 'G-D6WBH66ZNX');
+         </script>
 
 
-      
+      <!-- Meta Pixel Code -->
+         <script>
+         !function(f,b,e,v,n,t,s)
+         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+         n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+         if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+         n.queue=[];t=b.createElement(e);t.async=!0;
+         t.src=v;s=b.getElementsByTagName(e)[0];
+         s.parentNode.insertBefore(t,s)}(window, document,'script',
+         'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '1133714144380685');
+         fbq('track', 'PageView');
+         </script>
+         <noscript><img height="1" width="1" style="display:none"
+         src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
+         /></noscript>
+      <!-- End Meta Pixel Code -->
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -141,7 +138,7 @@ src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
                                        <div class="right-content">
                                           <div class="right-content-inner">
                                              <h5>Contactanos</h5>
-                                             <p>15 5402 4191</p>
+                                             <p>15 2393 3816</p>
                                           </div>
                                        </div>
                                     </div>
@@ -160,6 +157,12 @@ src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
                            </div>
                         </div>
                      </div>
+
+
+
+
+
+
                      <div class="navbar-area">
                         <div class="row">
                            <div class="col-lg-9 d-lg-block d-none">
@@ -170,7 +173,7 @@ src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
                                        <a href="{% url 'home' %}">Inicio</a>
                                     </li>
                                     <li>
-                                       <a href="#mockup">Diseños</a>
+                                       <a href="#galeria">Diseños</a>
                                     </li>
                                     <li><a href="#qa">¿Como Comprar?</i></a></li>
                                     <li><a href="#formulario">Pedidos a Medida</i></a></li>
@@ -202,7 +205,16 @@ src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
          </div>
       </div>
       
+<script>
+    document.addEventListener('click', function(event) {
+        var mobileMenu = document.getElementById('mobileMenu');
+        var isClickInside = mobileMenu.contains(event.target);
 
+        if (!isClickInside) {
+            mobileMenu.style.display = 'none';
+        }
+    });
+</script>
  
    
 
@@ -211,7 +223,7 @@ src="https://www.facebook.com/tr?id=1133714144380685&ev=PageView&noscript=1"
 
          
         
-   
+
         {% endblock %}
     </body>
 </html>

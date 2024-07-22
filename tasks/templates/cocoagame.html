@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-area services-breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-8">
+                <div class="game-container">
+                </div>
+                <p class="texto">
+                    <span>Score:</span><span id="scoreEl">0</span>
+                </p>
+                <canvas></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="hero-overlay"></div>
+</div>
+<!-- breadcrumb end -->
+
+
+
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/classes/Boundary.js' %}"></script>
+<script src="{% static 'js/classes/Ghost.js' %}"></script>
+<script src="{% static 'js/classes/Pellet.js' %}"></script>
+<script src="{% static 'js/classes/Player.js' %}"></script>
+<script src="{% static 'js/classes/PowerUp.js' %}"></script>
+<script src="{% static 'js/eventListeners.js' %}"></script>
+<script src="{% static 'js/setup.js' %}"></script>
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
+
+{% include "footer.html" %}

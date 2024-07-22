@@ -36,7 +36,7 @@
                                  <tr>
                                     <th scope="col">Borrar</th>
                                     <th scope="col">Imagen</th>
-                                    <th scope="col">link</th>
+                                  
                                     <th scope="col">Titulo</th>
                                     <th scope="col">Cantidad</th>
                                     <th scope="col">Total</th>
@@ -52,25 +52,23 @@
                                        <a href="{% url 'CLSK' key %}"><i class="far fa-trash-alt"></i></a>
                                     </td>
                                     <td>
-                                     <a href="{% url 'PD' key %}">
-                                        <img src="https://imgec.s3.sa-east-1.amazonaws.com/{{ value.imagen }}" width="200" class="table-img">
-                                    </a>
-                                    <td class="total"><span>{{ value.link }}</span></td>
                                      
-                                    </td>
-                                    <td class="title"><a class="title" href="{% url 'PD' key %}">{{ value.nombre }}</a></td>
+                                        <img src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ value.imagen }}" width="200" class="table-img">
+                                    </a>
+                                
+                                    <td class="title"><a class="title">{{ value.nombre }}</a></td>
                                    
                                     <td>
-                                       <input class="quantity" type="number" name="quantity" value= {{ value.cantidad }} min="1" disabled>
+                                       <input class="quantity" type="number" name="cantidad" value= {{ value.cantidad }} min="1" disabled>
                                     </td>
-                                    <td class="total"><span>$ {{ value.precio }}</span></td>
+                                    <td class="total"><span>$ {{ value.acumulado }}</span></td>
                                  </tr>
                             {% endfor %}
                             <td colspan="6">
                               
       
                                <div class="cartbtn-container">
-                                  <a class="cartbtn shop" href="{% url 'gallery' %}">Galeria</a>
+                                 
                                   <a class="cartbtn cart" href="#detallecompra">Ir a Pagar</a>
                          
          {% else %}
