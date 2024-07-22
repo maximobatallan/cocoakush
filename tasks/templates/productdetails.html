@@ -110,6 +110,7 @@
                                         <div class="col-lg-4">
                                    
                                             <form method="post">
+                                                {% csrf_token %}
                                                 <!-- Otros campos del formulario aquí -->
                                                 <input type="hidden" name="talle" value="{{ talle_seleccionado }}">
                                                 <input type="hidden" name="color" value="{{ color_seleccionado }}">
@@ -127,6 +128,7 @@
                                         <div class="col-lg-4">
                                            
                                             <form method="post">
+                                                {% csrf_token %}
                                                 <!-- Otros campos del formulario aquí -->
                                                 <input type="hidden" name="talle" value="{{ talle_seleccionado }}">
                                                 
