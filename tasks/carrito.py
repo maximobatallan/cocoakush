@@ -1,3 +1,4 @@
+from django.shortcuts import render, get_object_or_404
 class Carrito:
     def __init__(self, request):
         self.request = request
@@ -9,13 +10,17 @@ class Carrito:
         else:
             self.carrito = carrito
 
-    def agregar(self, producto):
+    def agregar(self, producto, talle, color):
 
+        
         id = str(producto.id)
+
+
+     
         if id not in self.carrito.keys():
             self.carrito[id]={
                 "producto_id": producto.id,
-                "nombre": producto.nombre,
+                "nombre": f"{producto.nombre} - {talle} - {color}",
                 "acumulado": producto.precio,
                 "cantidad": 1,
                 "imagen": str(producto.imagen),
@@ -24,6 +29,9 @@ class Carrito:
             }
        
         else:
+            nombre_producto = f"{self.carrito[id]["nombre"]} {talle} - {color}"
+            self.carrito[id]["nombre"] = nombre_producto
+      
             self.carrito[id]["cantidad"] += 1
             self.carrito[id]["acumulado"] += producto.precio
             
@@ -34,12 +42,13 @@ class Carrito:
         self.session.modified = True
 
     def eliminar(self, producto):
-        id = str(producto.id)
+        id = str(producto)
         if id in self.carrito:
             del self.carrito[id]
             self.guardar_carrito()
 
     def restar(self, producto):
+
         id = str(producto.id)
         if id in self.carrito.keys():
             self.carrito[id]["cantidad"] -= 1
@@ -52,5 +61,6 @@ class Carrito:
         self.session.modified = True
         
     def limpiaritem(self, producto):
+        
         self.eliminar(producto)
         self.session.modified = True

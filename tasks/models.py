@@ -75,3 +75,11 @@ class cupon(models.Model):
     contador = models.IntegerField(default=1)
 
  
+class Stock(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    color = models.CharField(max_length=64)
+    talle = models.CharField(max_length=64)
+    cantidad = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.color} - {self.talle}: {self.cantidad}"

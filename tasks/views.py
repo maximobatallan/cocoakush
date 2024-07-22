@@ -4,17 +4,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm, DatosForm, ProductForm
-from .models import Task, Producto, DatosPersonales, Categoria, formulario,compra, cupon
+from .models import Task, Producto, DatosPersonales, Categoria, formulario,compra, cupon, Stock
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .carrito import Carrito
 import mercadopago
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import time
+import os
 from facebook_business.adobjects.serverside.content import Content
 from facebook_business.adobjects.serverside.custom_data import CustomData
 from facebook_business.adobjects.serverside.delivery_category import DeliveryCategory
@@ -23,7 +25,11 @@ from facebook_business.adobjects.serverside.event_request import EventRequest
 from facebook_business.adobjects.serverside.gender import Gender
 from facebook_business.adobjects.serverside.user_data import UserData
 from facebook_business.api import FacebookAdsApi
-import os
+
+
+
+
+
 
 def home(request):
     productos = Producto.objects.filter(important=True)
@@ -43,8 +49,9 @@ def home(request):
         else:
             categorias_productos[categoria] = [id]
 
-    access_token = os.environ.get('access_token_meta')
-    pixel_id = os.environ.get('pixel_id_meta')
+
+    access_token = 'EAAI0sZCy63vUBOZBs5be3BSJep8XnBuWKEGhz36kDFIFczs1ZAZAapaZAxOdm7PbJXuSJlZBnSI0AUVf1zaf9OFdA6hovdviUSyl17fBaEGoXT6wYDHbZA6QrWfPXfEwq0pgHh811X3nszoNaKZB5kxHb2AobLZCZAqMdWq9UR65LYJGsfotu4rL04GdDEXrrR5WgNQwZDZD'
+    pixel_id = '1133714144380685'
 
 
 
@@ -55,15 +62,14 @@ def home(request):
         phones=["d36e83082288d9f2c98b3f3f87cd317a31e95527cb09972090d3456a7430ad4d"]
     )
     custom_data_0 = CustomData(
-        value=142.52,
+        value=111.52,
         currency="USD"
     )
     event_0 = Event(
         event_name="Purchase",
         event_time=1721622722,
         user_data=user_data_0,
-        custom_data=custom_data_0
-      
+        custom_data=custom_data_0,
     )
 
     events = [event_0]
@@ -224,7 +230,10 @@ def tienda(request):
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
-    carrito.agregar(producto)
+    
+    talle = request.POST.get('talle')
+    color = request.POST.get('color')
+    carrito.agregar(producto, talle, color)
     return redirect("cart")
  
 
@@ -285,10 +294,35 @@ def galeriaprueba(request):
 
 
 
-def detalleproducto(request,producto_id):
+def detalleproducto(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
     cat = Categoria.objects.all()
-    return render(request, "productdetails.html", {'productos': producto, 'cat' : cat})
+    primer_color = Stock.objects.filter(producto_id=producto_id).values_list('color', flat=True).distinct().first()
+    
+    color_seleccionado = request.GET.get('color', primer_color)
+    primer_talle = Stock.objects.filter(producto_id=producto_id,color=color_seleccionado).values_list('talle', flat=True).distinct().first()
+    talle_seleccionado = request.GET.get('talle', primer_talle)
+
+
+    if talle_seleccionado == 'undefined':
+        
+        talle_seleccionado = primer_talle
+    
+
+    stock = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado).values_list('talle', flat=True).distinct()
+ 
+   
+    
+    cantidad_total = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado,talle=talle_seleccionado).aggregate(total_cantidad=Sum('cantidad'))['total_cantidad']
+
+
+    colores = Stock.objects.filter(producto_id=producto_id).values_list('color', flat=True).distinct()
+
+
+  
+    return render(request, "productdetails.html", {'producto': producto, 'cat': cat, 'talles': stock, 'producto_id': producto_id, 'colores': colores ,'color_seleccionado':color_seleccionado,'talle_seleccionado':talle_seleccionado, 'cantidad_total': cantidad_total})
+
+
     
     
 def cart(request):
@@ -303,13 +337,39 @@ def cart(request):
     cupon_encontrado = False
     descuento= 1
     nombre_cupon = 1
-    
-    
+
+    access_token = os.environ.get('access_token_meta')
+    pixel_id = os.environ.get('pixel_id_meta')
+
+    FacebookAdsApi.init(access_token=access_token)
+
+    user_data_0 = UserData(
+        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+        phones=[]
+    )
+    custom_data_0 = CustomData(
+        value=2,
+        currency="USD"
+    )
+    event_0 = Event(
+        event_name="CompleteRegistration",
+        event_time=1721634470,
+        user_data=user_data_0,
+        custom_data=custom_data_0
+    )
+
+    events = [event_0]
+    event_request = EventRequest(
+        events=events,
+        pixel_id=pixel_id
+    )
+    event_response = event_request.execute()
     
     
     if request.method == 'POST':
         nombre_cupon = request.POST.get('cupon_nombre')
-        nombre_cupon = nombre_cupon.lower()
+        if nombre_cupon is not None:
+            nombre_cupon = nombre_cupon.lower()
         try:
             cupon_obj = cupon.objects.get(nombre=nombre_cupon)
         
@@ -333,7 +393,7 @@ def cart(request):
           
            
             total_aum += int(precioanterior)
-            subtotal += int(value["precio"])
+            subtotal += int(value["precio"]*value["cantidad"] )
             
         
         if cupon_encontrado == True:
@@ -716,7 +776,7 @@ def pendiente (request):
             params_list.append({key: value})
 
 
-        print ("pendiente")
+  
 
         if "carrito" in request.session and request.session["carrito"]:
                 for key, value in request.session["carrito"].items():
@@ -772,3 +832,16 @@ def pendiente (request):
 
         return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
 
+def cocoagame(request):
+
+    return render(request, "cocoagame.html")
+
+def terminosycondiciones(request):
+
+    return render(request, "terminosycondiciones.html")
+
+
+
+def politicadeprivacidad(request):
+
+    return render(request, "politicadeprivacidad.html")
