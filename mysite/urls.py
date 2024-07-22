@@ -56,7 +56,13 @@ urlpatterns = [
     path('pedido/', views.pedido, name='pedido'),
     path('formularioconfirmacion/', views.save_formulario, name='formularioconfirmacion'),
     path('pendiente/', views.pendiente, name='pendiente'),
+    path('cocoagame/', views.cocoagame, name='cocoagame'),
+    path('terminosycondiciones/', views.terminosycondiciones, name='terminosycondiciones'),
+    path('politicadeprivacidad/', views.politicadeprivacidad, name='politicadeprivacidad'),
     ]
+
+
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
