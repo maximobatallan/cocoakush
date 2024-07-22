@@ -29,7 +29,7 @@ class Carrito:
             }
        
         else:
-            nombre_producto = f"{self.carrito[id]["nombre"]} {talle} - {color}"
+            nombre_producto = f"{self.carrito[id]['nombre']} {talle} - {color}"
             self.carrito[id]["nombre"] = nombre_producto
       
             self.carrito[id]["cantidad"] += 1
