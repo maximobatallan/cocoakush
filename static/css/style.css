@@ -130,9 +130,10 @@ body {
 }
 
 body {
-    font-family: 'amstrike', sans-serif;
+    text-align: justify;
+    font-family: 'gillsansmt';
     color: #4e5861;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 400;
     line-height: 150%
 }
@@ -281,7 +282,7 @@ span.title {
 h2.subtitle {
     font-family: 'amstrike';
     color: #000000;
-    line-height: 150%
+    line-height: 150%;
     font-size: 25px;
     
     position: relative;
@@ -694,7 +695,7 @@ h2.subtitle::after {
 }
 
 .header-area span.working-time {
-    font-family: 'amstrike';
+    font-family: 'gillsansmt';
     display: inline-block;
     font-size: 14px;
     position: relative;
@@ -815,7 +816,7 @@ h2.subtitle::after {
     position: absolute;
     left: -47px;
     background-color: #F7700D;
-    border-bottom: 2px solid #000;
+    border-bottom: 3px solid #000;
     width: 100px;
     height: 102%;
     top: 0px;
@@ -877,6 +878,10 @@ h2.subtitle::after {
 }
 
 #mobileMenu {
+    display: none;
+}
+
+#aria-hidden.hidden {
     display: none;
 }
 
@@ -954,8 +959,8 @@ h2.subtitle::after {
 }
 
 .navbar-area nav ul li a {
-    font-family: 'amstrike';
-    color: #000;
+    font-family: 'gillsansmt';
+    color: #000000;
     text-transform: uppercase;
     padding: 0px;
     font-weight: 600;
@@ -2681,9 +2686,6 @@ footer .bottom-footer {
     top: 0px;
 }
 
-.home-3 nav.main-menu {
-    display: inline-block;
-}
 
 .home-3 .contact-infos {
     display: -webkit-box;
@@ -5008,8 +5010,10 @@ div#map {
     left: 0;
     height: 15px;
     width: 15px;
-    background-color: #eee;
+    background-color: #ffffff;
+    border: 2px solid #000000; /* Agrega esta línea para el borde negro de 2px */
 }
+
 
 .filter .container:hover input ~ .checkmark {
     background-color: none;
@@ -5212,6 +5216,7 @@ div#map {
 .color.filter .container input:checked ~ .checkmark.blue {
     background-color: blue;
 }
+
 
 .color.filter .container .checkmark:after {
     left: 9px;
@@ -5751,7 +5756,7 @@ button.cartbtn {
     border: 1px solid #000000;
     color: #000;
     display: inline-block;
-    font-family: 'amstrike';
+    font-family: 'gillsansmt';
     font-size: 12px;
     font-weight: 600;
     padding: 6px 25px;

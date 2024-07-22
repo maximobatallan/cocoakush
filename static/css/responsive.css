@@ -121,6 +121,18 @@
         margin-bottom: 54px;
     }
 
+
+    .coupon-input button {
+        border: none;
+        background-color: #F7700D;
+        color: #000000;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 0px 4px;
+        border-radius: 0px 3px 3px 0px;
+        cursor: pointer;
+    }
+
     #mobileMenu {
         display: inline-block;
         float: right;
@@ -156,7 +168,7 @@
         left: 0px;
         top: 84px;
         width: 100%;
-        background-color: #000;
+        background-color: #ffffff;
         z-index: 10;
     }
     .slicknav_nav a {
@@ -364,6 +376,12 @@
     .about-section .comment-content {
         padding: 111px 0px 115px;
     }
+
+    .about-section .pacman {
+        display: none;
+    }
+
+
     .news-section div[class*="col-"] .single-news {
         margin-bottom: 23px;
     }
