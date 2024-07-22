@@ -23,14 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ue4l&6=4%fo^&t8whj2pl!l0oi!na))&*92sjmf!g)zp!h6dxh'
-
+SECRET_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['cocoakush.ar', 'www.cocoakush.ar']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://cocoakush.com.ar']
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://cocoakush.com.ar', 'https://www.cocoakush.ar']
 
 CSRF_COOKIE_SECURE = False
 
