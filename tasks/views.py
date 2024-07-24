@@ -32,7 +32,7 @@ from facebook_business.api import FacebookAdsApi
 
 
 def home(request):
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
 
@@ -271,7 +271,7 @@ def limpiar_carrito_item(request,producto_id):
 
 def galeriaprueba(request):
    
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -550,7 +550,7 @@ def save_formulario(request):
 
 def banner1 (request):
 
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -572,7 +572,7 @@ def banner1 (request):
 
 def banner2 (request):
 
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -594,7 +594,7 @@ def banner2 (request):
 
 def banner3 (request):
 
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -616,7 +616,7 @@ def banner3 (request):
 
 def banner4 (request):
 
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -638,7 +638,7 @@ def banner4 (request):
 
 def banner5 (request):
 
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -660,7 +660,7 @@ def banner5 (request):
 
 def banner6 (request):
 
-    productos = Producto.objects.filter(important=True)
+    productos = Producto.objects.filter(important=True).order_by('id')
     cat = Categoria.objects.all()
 
     # Creamos un diccionario para agrupar los productos por categoría
@@ -742,7 +742,7 @@ def pedido (request):
    
         return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
     except:
-        productos = Producto.objects.filter(important=True)
+        productos = Producto.objects.filter(important=True).order_by('id')
         cat = Categoria.objects.all()
 
 
@@ -811,7 +811,7 @@ def pendiente (request):
    
         return render(request, "pendiente.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
     except:
-        productos = Producto.objects.filter(important=True)
+        productos = Producto.objects.filter(important=True).order_by('id')
         cat = Categoria.objects.all()
 
 
