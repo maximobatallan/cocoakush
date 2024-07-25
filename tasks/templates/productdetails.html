@@ -124,8 +124,8 @@
                                         </div>
                                         <div class="col-lg-4"></div>
                                         <div class="col-lg-4">
-                                            <button name="submit_get" formaction="{% url 'signin' %}" class="wishlist">
-                                                <i class="far fa-heart"></i>Iniciar Sesión
+                                            <button name="submit_post" formaction="{% url 'Add' producto.id %}">
+                                                <i class="fas fa-shopping-cart"></i>Ir a Pagar
                                             </button>
                                         </div>
                                     {% else %}
