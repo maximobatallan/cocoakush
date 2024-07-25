@@ -4064,7 +4064,7 @@ ul.overview-points li::before {
 ---------------------------*/
 
 .gallery-section {
-    padding: 120px 0px;
+    padding-top: 120px 0px;
 }
 
 .single-pic img {
