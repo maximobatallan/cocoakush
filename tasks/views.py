@@ -376,7 +376,7 @@ def cart(request):
         sdk = mercadopago.SDK("APP_USR-5213772683732349-061323-dc5bd7f2a56c2080735653bb6d1901e7-97277305")
         preference_data["back_urls"] = {
         "success": "https://cocoakush.ar/pedido/",
-        "failure": "https://cocoakush.ar/pendiente/",
+        "failure": "https://cocoakush.ar/cancelado/",
         "pending": "https://cocoakush.ar/pendiente/"
     }
         preference_data["auto_return"] = "approved"
@@ -385,9 +385,9 @@ def cart(request):
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
 
-        access_token = os.environ.get('access_token_meta')
-        pixel_id = os.environ.get('pixel_id_meta')
 
+        access_token = "os.environ.get('access_token_meta')"
+        pixel_id = os.environ.get('pixel_id_meta')
         FacebookAdsApi.init(access_token=access_token)
 
         user_data_0 = UserData(
@@ -560,7 +560,7 @@ def send_user_data_email(user_data):
     send_mail(subject, message, from_email, recipient_list)
 
 
-
+@csrf_exempt
 def save_formulario(request):
     
 
