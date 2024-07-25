@@ -48,6 +48,10 @@
                             <img class="small" src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen2 }}" alt="{{ producto.nombre }}" width="100">
                             <img class="big" src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen2 }}" alt="{{ producto.nombre }}">
                         </div>
+                        <div class="single-product">
+                            <img class="small" src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen2 }}" alt="{{ producto.nombre }}" width="100">
+                            <img class="big" src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen2 }}" alt="{{ producto.nombre }}">
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-7">
@@ -56,20 +60,20 @@
                         <div class="rate">
                             <div class="rating" style="width:100%"></div>
                         </div>
-                        <span>(53)</span>
+                       
                         <div class="price">
-                            <span>${{ producto.precio }}</span>
-                            <del>{{ producto.precioanterior }}</del>
+                            <span style="font-size: 45px;">${{ producto.precio }}</span>
+                         
                         </div>
                         <div class="desc">
-                            <p>{{ producto.descripcion }}</p>
+                            <p style="font-size: 20px;">{{ producto.descripcion }}</p>
                         </div>
                         <form method="POST" class="product-details-form" action="{% url 'signin' %}">
                             {% csrf_token %}
                             <div class="row">
                               <div class="col-lg-6">
                                  <div class="filter color">
-                                    <h6 class="label">Elija el color :</h6>
+                                    <h6 style="font-size: 20px;" class="label">Elija el color :</h6>
       
                                     {% for color in colores %}
                                         <label class="container">{{ color|upper }}
@@ -81,7 +85,7 @@
                                 </div>
                              </div>
                                 <div class="col-lg-6 mb-2">
-                                    <h6 class="label">Tamaño :</h6>
+                                    <h6 style="font-size: 20px;" class="label">Tamaño :</h6>
                                     {% if cantidad_total is not None %}
 
                                     <select id="talle-selector" name="talle" required onchange="redirectToColorAndTalle(document.querySelector('input[name=color]:checked').value, this.value)">
@@ -99,7 +103,7 @@
                    
                             <div class="row align-items-end mb-3">
                               <div class="col-lg-6">
-                                  <h6 class="label">Cantidad :</h6>
+                                  <h6 style="font-size: 20px;" class="label">Cantidad :</h6>
                                   <input type="number" name="quantity" placeholder="1" min="1" max="{{ cantidad_total }}">
                               </div>
                                 <div class="col-lg-6"></div>
@@ -178,7 +182,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Material</th>
-                                        <td>Algodón 24.1 Peinado</td>
+                                        <td>Remeras: Algodón 24.1 Peinado. <br> Canguros y Poleras: Frisa Invisible</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Calidad</th>
