@@ -560,7 +560,7 @@ def send_user_data_email(user_data):
     send_mail(subject, message, from_email, recipient_list)
 
 
-@csrf_exempt
+
 def save_formulario(request):
     
 
