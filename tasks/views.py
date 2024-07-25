@@ -50,34 +50,7 @@ def home(request):
             categorias_productos[categoria] = [id]
 
 
-    access_token = 'EAAI0sZCy63vUBOZBs5be3BSJep8XnBuWKEGhz36kDFIFczs1ZAZAapaZAxOdm7PbJXuSJlZBnSI0AUVf1zaf9OFdA6hovdviUSyl17fBaEGoXT6wYDHbZA6QrWfPXfEwq0pgHh811X3nszoNaKZB5kxHb2AobLZCZAqMdWq9UR65LYJGsfotu4rL04GdDEXrrR5WgNQwZDZD'
-    pixel_id = '1133714144380685'
-
-
-
-    FacebookAdsApi.init(access_token=access_token)
-
-    user_data_0 = UserData(
-        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
-        phones=["d36e83082288d9f2c98b3f3f87cd317a31e95527cb09972090d3456a7430ad4d"]
-    )
-    custom_data_0 = CustomData(
-        value=111.52,
-        currency="USD"
-    )
-    event_0 = Event(
-        event_name="Purchase",
-        event_time=1721622722,
-        user_data=user_data_0,
-        custom_data=custom_data_0,
-    )
-
-    events = [event_0]
-    event_request = EventRequest(
-        events=events,
-        pixel_id=pixel_id
-    )
-    event_response = event_request.execute()
+    
    
 
     return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
@@ -338,32 +311,8 @@ def cart(request):
     descuento= 1
     nombre_cupon = 1
 
-    access_token = os.environ.get('access_token_meta')
-    pixel_id = os.environ.get('pixel_id_meta')
 
-    FacebookAdsApi.init(access_token=access_token)
 
-    user_data_0 = UserData(
-        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
-        phones=[]
-    )
-    custom_data_0 = CustomData(
-        value=2,
-        currency="USD"
-    )
-    event_0 = Event(
-        event_name="CompleteRegistration",
-        event_time=1721634470,
-        user_data=user_data_0,
-        custom_data=custom_data_0
-    )
-
-    events = [event_0]
-    event_request = EventRequest(
-        events=events,
-        pixel_id=pixel_id
-    )
-    event_response = event_request.execute()
     
     
     if request.method == 'POST':
@@ -435,6 +384,34 @@ def cart(request):
         
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
+
+        access_token = os.environ.get('access_token_meta')
+        pixel_id = os.environ.get('pixel_id_meta')
+
+        FacebookAdsApi.init(access_token=access_token)
+
+        user_data_0 = UserData(
+            emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+            phones=[]
+        )
+        custom_data_0 = CustomData(
+            value= value["precio"],
+            currency="ARS"
+        )
+        event_0 = Event(
+            event_name="AddToCart",
+            event_time=1721690712,
+            user_data=user_data_0,
+            custom_data=custom_data_0
+        
+        )
+
+        events = [event_0]
+        event_request = EventRequest(
+            events=events,
+            pixel_id=pixel_id
+        )
+        event_response = event_request.execute()
       
 
         return render(request, "cart.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon} )
@@ -483,6 +460,34 @@ def cotizar(request):
 '''
 
 def sendmail(request):
+    access_token = os.environ.get('access_token_meta')
+    pixel_id = os.environ.get('pixel_id_meta')
+
+
+
+    FacebookAdsApi.init(access_token=access_token)
+
+    user_data_0 = UserData(
+        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+        phones=["d36e83082288d9f2c98b3f3f87cd317a31e95527cb09972090d3456a7430ad4d"]
+    )
+    custom_data_0 = CustomData(
+        value=1,
+        currency="ARS"
+    )
+    event_0 = Event(
+        event_name="Purchase",
+        event_time=1721622722,
+        user_data=user_data_0,
+        custom_data=custom_data_0,
+    )
+
+    events = [event_0]
+    event_request = EventRequest(
+        events=events,
+        pixel_id=pixel_id
+    )
+    event_response = event_request.execute()
     if request.method == 'POST':
         mail = request.POST.get('mail')
     asunto= 'Confirmación de Compra'
@@ -495,7 +500,7 @@ def sendmail(request):
     from_email = 'notificaciondepaginaweb@gmail.com'
     recipient_list = ['notificaciondepaginaweb@gmail.com','maximobatallan@gmail.com']
 
-    correo= 'correo@correo.com'
+    correo= 'cocoakush.ok@gmail.com'
     
     send_mail(subject, message, from_email, recipient_list)
     
@@ -507,6 +512,34 @@ def datosbanco(request):
     cbu = datos_relevantes[0]['cbu']
     titular = datos_relevantes[0]['titular']
     
+    access_token = os.environ.get('access_token_meta')
+    pixel_id = os.environ.get('pixel_id_meta')
+
+    FacebookAdsApi.init(access_token=access_token)
+
+    user_data_0 = UserData(
+        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+        phones=[]
+    )
+    custom_data_0 = CustomData(
+        value=1,
+        currency="ARS"
+    )
+    event_0 = Event(
+        event_name="InitiateCheckout",
+        event_time=1721690712,
+        user_data=user_data_0,
+        custom_data=custom_data_0
+    )
+
+    events = [event_0]
+    event_request = EventRequest(
+        events=events,
+        pixel_id=pixel_id
+    )
+    event_response = event_request.execute()
+
+    
     return render(request, "datosbanco.html", {'cbu': cbu, 'titular': titular,'cat': cat,})
 
 
@@ -515,6 +548,7 @@ def catproducto(request, catproducto):
     productos = Producto.objects.filter(cat = catproducto)
     cat = Categoria.objects.all()
     return render(request, "categoriaproducto.html", {'productos': productos, 'cat': cat})
+
 
 def send_user_data_email(user_data):
     subject = 'Cocoa Kush'
@@ -710,26 +744,24 @@ def pedido (request):
                 
                     producto_id = str(value["producto_id"])
                     cantidad = int(value["cantidad"])
-                    link = str(value["link"])
-                    codigo = value["codigo"]
+            
                     precio  = int(value["precio"])
                     nombre = str(value["nombre"])
 
     
-                    url = f"https://growfollows.com/api/v2?key=09712c94e11bdb6a8240734518511373&action=add&service={codigo}&link={link}&quantity={cantidad}"
-
+                  
 
                     producto = {
                     'cantidad': cantidad,
-                    'link': link,
+                  
                     'nombre': nombre
                     }
                     productos_para_comprar.append(producto)
 
 
-                    response = requests.request("POST", url)
+                 
                     
-                    compra1 = compra(producto_id=producto_id, codigo=codigo, cantidad=cantidad, precio=precio, link=link, orden=payment_id)
+                    compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden=payment_id)
                     compra1.save()
 
 
@@ -742,6 +774,7 @@ def pedido (request):
    
         return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
     except:
+
         productos = Producto.objects.filter(important=True).order_by('id')
         cat = Categoria.objects.all()
 
@@ -762,6 +795,9 @@ def pedido (request):
    
 
         return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
+
+
+
 
 def pendiente (request):
 
