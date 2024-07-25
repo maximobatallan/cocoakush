@@ -147,6 +147,12 @@
         margin: 0px;
         padding: 0px;
     }
+
+
+    .breadcrumb-area h1 {
+        font-size: 24px;
+        text-align: center;
+    }
     .slicknav_menu .slicknav_menutxt {
         display: none;
     }
@@ -770,9 +776,7 @@
     .hero-area.home-4 .hero-carousel .single-hero-item {
         padding: 142px 0px 150px 0px;
     }
-    .breadcrumb-area h1 {
-        font-size: 26px;
-    }
+   
     .service-details-desc .overview > h3.title {
         font-size: 22px;
     }
@@ -842,9 +846,7 @@
         margin-top: 7px;
         margin-bottom: 15px;
     }
-    .breadcrumb-area h1 {
-        font-size: 26px;
-    }
+
     .breadcrumb-area {
         position: relative;
         padding: 12px 0px 290px;
@@ -1002,9 +1004,7 @@
         position: relative;
         padding: 12px 0px 280px;
     }
-    .breadcrumb-area h1 {
-        font-size: 26px;
-    }
+  
     .breadcrumb-area span {
         font-size: 12px;
         margin-bottom: 40px;
@@ -1106,9 +1106,7 @@
     .cta-section h2 {
         font-size: 26px;
     }
-    .breadcrumb-area h1 {
-        font-size: 26px;
-    }
+  
     .service-details-desc > h2.title {
         font-size: 28px;
     }
@@ -1175,9 +1173,7 @@
         width: 25px;
         margin-bottom: 8px;
     }
-    .breadcrumb-area h1 {
-        font-size: 26px;
-    }
+   
     .blog-sidebar-widgets {
         padding: 40px 30px;
     }
