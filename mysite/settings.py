@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['cocoakush.ar', 'www.cocoakush.ar']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://cocoakush.com.ar', 'https://www.cocoakush.ar']
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://cocoakush.ar', 'https://www.cocoakush.ar']
 
 CSRF_COOKIE_SECURE = False
 
