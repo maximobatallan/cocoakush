@@ -20,13 +20,14 @@
               <div class="single-pic-overlay" ></div>
                  <div class="txt-icon" >
                   <div class="outer">
-                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, -50%);">
-                        <h4>{{ producto.nombre }}</h4>
-                     </a>
-                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, 90%);"
-                        class="icon-wrapper" href="{% url 'PD' value %}" data-title="{{ producto.nombre }}">
-                        <i class="fas fa-heart"></i>
-                     </a>
+                     <a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, -50%); color: black; font-size: 20px;"
+   href="{% url 'PD' value %}" data-title="{{ producto.nombre }}">
+    <h4>{{ producto.nombre }}</h4>
+</a>
+<a style="position: absolute; top: 50%; right: 50%; transform: translate(50%, 90%);"
+   class="icon-wrapper" href="{% url 'PD' value %}" data-title="{{ producto.nombre }}">
+    <i style="padding: 5px; font-size: 20px;" class="fas fa-heart"><br><br> Ver Detalle</i>
+</a>
 
                      <a href="{% url 'PD' value %}" class="cartbtn" , style="position: absolute; top: 0; right: 0;">
                         <span> ${{ producto.precio }}</span>
@@ -36,7 +37,8 @@
                   <br>
                  <div style="text-align: center;">
                  
-                    <a href="{% url 'Add' value %}" id="comprar" class="cartbtn" ><span><i class="flaticon-shopping-cart-black-shape"></i> Comprar</span></a>
+                    <a href="{% url 'PD' value %}" id="comprar" class="cartbtn" ><span><i class="flaticon-shopping-cart-black-shape"></i> Comprar</span></a>
+                    
                 </div>
                
                  
