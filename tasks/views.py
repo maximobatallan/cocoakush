@@ -386,7 +386,7 @@ def cart(request):
         preference = preference_response["response"]
 
 
-        access_token = "os.environ.get('access_token_meta')"
+        access_token = os.environ.get('access_token_meta')
         pixel_id = os.environ.get('pixel_id_meta')
         FacebookAdsApi.init(access_token=access_token)
 
