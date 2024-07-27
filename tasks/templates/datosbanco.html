@@ -1,33 +1,157 @@
 {% extends "base.html" %}
-{% load static%}
+{% load static %}
 {% block content %}
 
-    
-    <main class="container">
-        <div class="row">
-            <section class="col-md-4 offset-md-4 mt-5 mb-5">
-                
-                    <h1 class='text-center'>Datos Bancarios:</h1>
+<main class="container">
+    <div class="row">
+        <section class="col-md-8 offset-md-2 mt-5 mb-5">
+            <h2 class="text-center">¡Realice la transferencia a la siguiente cuenta!</h2>
+            {% csrf_token %}
 
-               
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                    
-                        <h1 class='text-center'>{{ cbu }}</h1>
+
+            <!-- Account Details Table Start -->
+            <div class="cart-table" style="padding-top: 0;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">BANCO</th>
+                                            <th scope="col">ALIAS</th>
+                                            <th scope="col">CBU</th>
+                                            <th scope="col">TITULAR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td class="total"><span style="color: black;">BBVA</span></td>
+                                          <td class="total"><span style="color: black;">{{ alias }}</span></td>
+                                          <td class="total"><span style="color: black;">{{ cbu }}</span></td>
+                                          <td class="total"><span style="color: black;">{{ titular }}</span></td>
+                                      </tr>
+                                        <tr>
+                                            <td class="total"><span style="color: black;">Mercadopago</span></td>
+                                            <td class="total"><span style="color: black;">cocoakush</span></td>
+                                            <td class="total"><span style="color: black;">0000003100084885388802</span></td>
+                                            <td class="total"><span style="color: black;">{{ titular }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="text-align: center;">
+                                                <div class="cartbtn-container" style="display: flex; justify-content: center;">
+                                                   
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            
+                        </div>
+
+                        <div class="card-body" style="padding-top: 5px;">
+                           {% if cupon_encontrado %}
+                           <div class="calculations">
+                              <div class="single-calc">
+                                 <strong>Subtotal</strong>
+                                 <strong>  <del>$ {{ subtotal }}</del></strong>
+                              </div>
+                           
+   
+                                 <div class="single-calc">
+                                    <strong>Descuento de {{ nombrecupon }}</strong>
+                                    <strong>{{ descuento }}%</strong>
+                                 </div>
+                                 <div class="single-calc total">
+                                 
+   
+                                    <strong>Total</strong>
+   
+                                    <strong>$ {{ total_compra }}</strong>
+                                 
+                                 
+                               "{% url 'datosbanco' %}"
+                                 </div>
+                               
+                                
+                           </div>
+   
+                              {% else %}
+   
+                              <div class="calculations">
+                                 <div class="single-calc">
+                                    <strong>Subtotal</strong>
+                                    <del><strong>$ {{ total_compra }}</strong></del>
+                                 </div>
+
+                                 <div class="single-calc">
+                                    <strong>Adicional 5% off por transferencia</strong>
+                                    <strong>-{{ descuento }}</strong>
+                                 </div>
+                                 <div class="single-calc total">
+                                
+                                 
+                                 <strong>Total</strong>
+                                 <strong>$ {{ total_compra1 }}</strong>
+                                 {% endif %}
+                              </div>
                     </div>
+                </div>
+            </div>
+            <a class="cartbtn cart" href="{% url 'pedido' %}">Confirmar pago realizado</a>
 
-                    <div class="mb-3">
-                      
-                        <h1 class='text-center'>{{ titular }}</h1>
+            <!-- Account Details Table Area End -->
+                         <!-- Cart Table Start -->
+            <div class="cart-table">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% if request.session.carrito.items %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Imagen</th>
+                                            <th scope="col">Titulo</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key, value in request.session.carrito.items %}
+                                        <tr>
+                                            <td>
+                                                <img src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ value.imagen }}" width="200" class="table-img">
+                                            </td>
+                                            <td class="title">
+                                                <a class="title">{{ value.nombre }}</a>
+                                            </td>
+                                            <td>
+                                                <input class="quantity" type="number" name="cantidad" value="{{ value.cantidad }}" min="1" disabled>
+                                            </td>
+                                            <td class="total">
+                                                <span>$ {{ value.acumulado }}</span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="alert alert-danger text-center">Sin Productos</div>
+                            <a class="cartbtn shop" href="{% url 'gallery' %}" style="text-align: left;">Galeria</a>
+                            {% endif %}
+                        </div>
                     </div>
+                </div>
+            </div>
+            <!-- Cart Table Area End -->
 
-                    
-            </section>   
-        </div>
-    </main>
-                    {% include "footer.html" %}
-                    {% endblock %}
-                   
+        </section>
+    </div>
+</main>
 
-
+{% include "footer.html" %}
+{% endblock %}

@@ -176,9 +176,14 @@
                      <br>
                            <div class="row">
                               
-                              <div class="col-lg-8">
-                              
-                              </div>
+                               <!-- Payment Confirmation Button -->
+            <div class="col-lg-8 mt-4">
+               <form action="{% url 'datosbanco' %}" method="post">
+                   {% csrf_token %}
+                   <input type="hidden" name="total_compra" value="{{ total_compra }}">
+                   <button type="submit" class="cartbtn cart">Transferencia Bancaria 5% OFF adicional</button>
+               </form>
+           </div>
                               <div class="col-lg-4">
                                  
                                     <div id="wallet_container"></div>
