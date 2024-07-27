@@ -371,21 +371,6 @@ def cart(request):
         
             total_compra = int(subtotal)
         
-        
-        total_compra = round(total_compra, 2)
-        sdk = mercadopago.SDK("APP_USR-5213772683732349-061323-dc5bd7f2a56c2080735653bb6d1901e7-97277305")
-        preference_data["back_urls"] = {
-        "success": "https://cocoakush.ar/pedido/",
-        "failure": "https://cocoakush.ar/cancelado/",
-        "pending": "https://cocoakush.ar/pendiente/"
-    }
-        preference_data["auto_return"] = "approved"
-        
-        
-        preference_response = sdk.preference().create(preference_data)
-        preference = preference_response["response"]
-
-
         access_token = os.environ.get('access_token_meta')
         pixel_id = os.environ.get('pixel_id_meta')
         FacebookAdsApi.init(access_token=access_token)
@@ -405,13 +390,29 @@ def cart(request):
             custom_data=custom_data_0
         
         )
-
+        
         events = [event_0]
         event_request = EventRequest(
             events=events,
             pixel_id=pixel_id
         )
         event_response = event_request.execute()
+
+        total_compra = round(total_compra, 2)
+        sdk = mercadopago.SDK("APP_USR-5213772683732349-061323-dc5bd7f2a56c2080735653bb6d1901e7-97277305")
+        preference_data["back_urls"] = {
+        "success": "https://cocoakush.ar/pedido/",
+        "failure": "https://cocoakush.ar/cancelado/",
+        "pending": "https://cocoakush.ar/pendiente/"
+    }
+        preference_data["auto_return"] = "approved"
+        
+        
+        preference_response = sdk.preference().create(preference_data)
+        preference = preference_response["response"]
+
+
+        
       
 
         return render(request, "cart.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon} )
@@ -507,41 +508,56 @@ def sendmail(request):
     return render(request, "sendmail.html", {'asunto': asunto,'mensaje': mensaje, 'correo': correo, 'cel': cel})
 
 def datosbanco(request):
+
     cat = Categoria.objects.all()
-    datos_relevantes = DatosPersonales.objects.filter(id=6).values('cbu', 'titular')
-    cbu = datos_relevantes[0]['cbu']
-    titular = datos_relevantes[0]['titular']
-    
-    access_token = os.environ.get('access_token_meta')
-    pixel_id = os.environ.get('pixel_id_meta')
+    if request.method == 'POST':
 
-    FacebookAdsApi.init(access_token=access_token)
+            
+        cbu = "0170016940000005504703"
+        alias= 'tiendacocoakush'
+        titular = "Maximo Hernan Batallan"
+        
+        
+        access_token = os.environ.get('access_token_meta')
+        pixel_id = os.environ.get('pixel_id_meta')
 
-    user_data_0 = UserData(
-        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
-        phones=[]
-    )
-    custom_data_0 = CustomData(
-        value=1,
-        currency="ARS"
-    )
-    event_0 = Event(
-        event_name="InitiateCheckout",
-        event_time=1721690712,
-        user_data=user_data_0,
-        custom_data=custom_data_0
-    )
+        FacebookAdsApi.init(access_token=access_token)
 
-    events = [event_0]
-    event_request = EventRequest(
-        events=events,
-        pixel_id=pixel_id
-    )
-    event_response = event_request.execute()
+        user_data_0 = UserData(
+            emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+            phones=[]
+        )
+        custom_data_0 = CustomData(
+            value=1,
+            currency="ARS"
+        )
+        event_0 = Event(
+            event_name="InitiateCheckout",
+            event_time=1721690712,
+            user_data=user_data_0,
+            custom_data=custom_data_0
+        )
 
-    
-    return render(request, "datosbanco.html", {'cbu': cbu, 'titular': titular,'cat': cat,})
+        events = [event_0]
+        event_request = EventRequest(
+            events=events,
+            pixel_id=pixel_id
+        )
+        event_response = event_request.execute()
 
+        total_compra = request.POST.get('total_compra')
+        total_compra1 = float(total_compra)
+        total_compra1 = total_compra1*0.95
+        total_compra1 = round(total_compra1)
+        total_compra = float(total_compra)  # Convertir a float
+        total_compra = round(total_compra, 2)  # Redondear a 2 decimales
+
+        descuento = int(total_compra) - total_compra1
+
+        
+        return render(request, "datosbanco.html", {'cbu': cbu, 'titular': titular,'cat': cat,'alias': alias,'total_compra': total_compra,'total_compra1': total_compra1,'descuento': descuento,})
+    else:
+        return redirect("gallery")
 
 
 def catproducto(request, catproducto):
@@ -774,7 +790,46 @@ def pedido (request):
    
         return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
     except:
+    
+        
+        if request.method == 'GET':
+            if "carrito" in request.session and request.session["carrito"]:
+                    for key, value in request.session["carrito"].items():
+                    
+                        producto_id = str(value["producto_id"])
+                        cantidad = int(value["cantidad"])
+                
+                        precio  = int(value["precio"])
+                        nombre = str(value["nombre"])
 
+        
+                    
+
+                        producto = {
+                        'cantidad': cantidad,
+                    
+                        'nombre': nombre
+                        }
+                        productos_para_comprar.append(producto)
+
+
+                    
+                        
+                        compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden='Transferencia')
+                        compra1.save()
+
+
+            user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list}"
+            
+            nuevacompra(user_data)
+          
+            #carrito = Carrito(request)
+            #carrito.limpiar()
+    
+            return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
+
+           
+        
         productos = Producto.objects.filter(important=True).order_by('id')
         cat = Categoria.objects.all()
 
