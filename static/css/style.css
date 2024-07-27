@@ -5684,7 +5684,7 @@ div#map {
 ---------------------------*/
 
 .cart-table {
-    padding: 120px 0px 0px;
+    padding:  20px 0px;
 }
 
 .cart-table img.table-img {
@@ -5757,7 +5757,7 @@ button.cartbtn {
     color: #000;
     display: inline-block;
     font-family: 'gillsansmt';
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 600;
     padding: 6px 25px;
     border-radius: 3px;
