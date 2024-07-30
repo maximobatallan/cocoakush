@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, DatosForm, ProductForm
+from .forms import TaskForm, DatosForm, ProductForm, ShippingAddressForm
 from .models import Task, Producto, DatosPersonales, Categoria, formulario,compra, cupon, Stock
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -272,7 +272,13 @@ def detalleproducto(request, producto_id):
     cat = Categoria.objects.all()
     primer_color = Stock.objects.filter(producto_id=producto_id).values_list('color', flat=True).distinct().first()
     
-    color_seleccionado = request.GET.get('color', primer_color)
+
+    nombre_producto = producto.nombre
+    colorennombre = nombre_producto.split()[-1]
+
+
+
+    color_seleccionado = colorennombre.lower()
     primer_talle = Stock.objects.filter(producto_id=producto_id,color=color_seleccionado).values_list('talle', flat=True).distinct().first()
     talle_seleccionado = request.GET.get('talle', primer_talle)
 
@@ -284,13 +290,15 @@ def detalleproducto(request, producto_id):
 
     stock = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado).values_list('talle', flat=True).distinct()
  
-   
-    
+    nombre_producto = producto.nombre
+  
+
     cantidad_total = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado,talle=talle_seleccionado).aggregate(total_cantidad=Sum('cantidad'))['total_cantidad']
 
 
-    colores = Stock.objects.filter(producto_id=producto_id).values_list('color', flat=True).distinct()
+    colores = colorennombre.lower()
 
+            
 
   
     return render(request, "productdetails.html", {'producto': producto, 'cat': cat, 'talles': stock, 'producto_id': producto_id, 'colores': colores ,'color_seleccionado':color_seleccionado,'talle_seleccionado':talle_seleccionado, 'cantidad_total': cantidad_total})
@@ -371,6 +379,9 @@ def cart(request):
         
             total_compra = int(subtotal)
         
+
+
+        current_time = int(time.time())
         access_token = os.environ.get('access_token_meta')
         pixel_id = os.environ.get('pixel_id_meta')
         FacebookAdsApi.init(access_token=access_token)
@@ -385,7 +396,7 @@ def cart(request):
         )
         event_0 = Event(
             event_name="AddToCart",
-            event_time=1721690712,
+            event_time= current_time,
             user_data=user_data_0,
             custom_data=custom_data_0
         
@@ -423,44 +434,31 @@ def cart(request):
     
     
     
-'''   
+
 def cotizar(request):
+    print('river')
     if request.method == 'POST':
-        print(request)
-        # Obtener los datos del formulario
-        nombre = request.POST.get('nombre', '')
-        apellido = request.POST.get('apellido', '')
-        direccion = request.POST.get('direccion', '')
-        numero = request.POST.get('numero', '')
-        ciudad = request.POST.get('ciudad', '')
-        estado = request.POST.get('estado', '')
-        codigo_postal = request.POST.get('codigo_postal', '')
-        pais = request.POST.get('pais', '')
-        telefono = request.POST.get('telefono', '')
+        form = ShippingAddressForm(request.POST)
+        if form.is_valid():
+            cotizacion_data = form.cleaned_data
 
-        # Crear un diccionario con los datos recopilados
-        cotizacion_data = {
-            'Nombre': nombre,
-            'Apellido': apellido,
-            'Dirección': direccion,
-            'Número': numero,
-            'Ciudad': ciudad,
-            'Estado': estado,
-            'Código Postal': codigo_postal,
-            'País': pais,
-            'Teléfono': telefono,
-        }
+            shipping_address = form.save()
 
-        # Imprimir los datos en la consola del servidor
-        print("Información de la cotización:")
-        print(cotizacion_data)
+            print("Información de la cotización:")
+            print(cotizacion_data)
+            return JsonResponse({'message': 'Cotización exitosa'})  
+        else:
+            print("Errores en el formulario:")
+            print(form.errors)  # Imprime los errores del formulario en la consola
+            return JsonResponse({'message': 'Error en el formulario', 'errors': form.errors}, status=400)
+    else:
+        form = ShippingAddressForm()
 
-        return JsonResponse({'message': 'Cotización exitosa'})  # Puedes retornar una respuesta JSON si lo deseas
+    return render(request, 'cart.html', {'form': form})
 
-    return render(request, 'cart.html')  # Reemplaza 'tu_template.html' con la plantilla adecuada
-'''
 
 def sendmail(request):
+    current_time = int(time.time())
     access_token = os.environ.get('access_token_meta')
     pixel_id = os.environ.get('pixel_id_meta')
 
@@ -478,7 +476,7 @@ def sendmail(request):
     )
     event_0 = Event(
         event_name="Purchase",
-        event_time=1721622722,
+        event_time=current_time,
         user_data=user_data_0,
         custom_data=custom_data_0,
     )
@@ -517,7 +515,7 @@ def datosbanco(request):
         alias= 'tiendacocoakush'
         titular = "Maximo Hernan Batallan"
         
-        
+        current_time = int(time.time())            
         access_token = os.environ.get('access_token_meta')
         pixel_id = os.environ.get('pixel_id_meta')
 
@@ -533,7 +531,7 @@ def datosbanco(request):
         )
         event_0 = Event(
             event_name="InitiateCheckout",
-            event_time=1721690712,
+            event_time=current_time,
             user_data=user_data_0,
             custom_data=custom_data_0
         )
@@ -780,7 +778,7 @@ def pedido (request):
                     compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden=payment_id)
                     compra1.save()
 
-
+        
         user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list}"
         
         nuevacompra(user_data)
@@ -790,21 +788,31 @@ def pedido (request):
    
         return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
     except:
-    
-        
+        productos_para_comprar = []
+      
         if request.method == 'GET':
             if "carrito" in request.session and request.session["carrito"]:
                     for key, value in request.session["carrito"].items():
-                    
-                        producto_id = str(value["producto_id"])
+                        print(type(value["producto_id"]), value["producto_id"])
+                        producto_id = int(value["producto_id"])
                         cantidad = int(value["cantidad"])
-                
+                        
                         precio  = int(value["precio"])
                         nombre = str(value["nombre"])
 
-        
+                        stock_existe = Stock.objects.filter(producto=value["producto_id"], color=value["color"], talle=value["talle"]).first()
+                        if stock_existe.cantidad == 0:
+                            # Restar 1 a la cantidad
+                            stock_existe.cantidad -= 1
+                            
+                            # Verificar si la cantidad es menor a 0 y ajustar si es necesario
+                            if stock_existe.cantidad < 0:
+                                stock_existe.cantidad = 0
+                            
+                            # Guardar los cambios en la base de datos
+                            stock_existe.save()
+                         
                     
-
                         producto = {
                         'cantidad': cantidad,
                     
@@ -812,8 +820,7 @@ def pedido (request):
                         }
                         productos_para_comprar.append(producto)
 
-
-                    
+                        
                         
                         compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden='Transferencia')
                         compra1.save()
@@ -821,8 +828,8 @@ def pedido (request):
 
             user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list}"
             
-            nuevacompra(user_data)
-          
+            #nuevacompra(user_data)
+            print(productos_para_comprar)
             #carrito = Carrito(request)
             #carrito.limpiar()
     

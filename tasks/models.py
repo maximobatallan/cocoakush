@@ -83,3 +83,20 @@ class Stock(models.Model):
 
     def __str__(self):
         return f"{self.producto.nombre} - {self.color} - {self.talle}: {self.cantidad}"
+    
+
+class ShippingAddress(models.Model):
+    
+    nombre = models.CharField(max_length=255)
+    apellido = models.CharField(max_length=255)
+    direccion = models.CharField(max_length=255)
+    numero = models.CharField(max_length=50)
+    ciudad = models.CharField(max_length=100)
+    estado = models.CharField(max_length=100)
+    codigo_postal = models.CharField(max_length=20)
+    pais = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}, {self.direccion} {self.numero}, {self.ciudad}, {self.estado}, {self.pais}"

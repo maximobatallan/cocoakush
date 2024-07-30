@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Select
 from django import forms
-from .models import Task, DatosPersonales, Producto, Categoria
+from .models import Task, DatosPersonales, Producto, Categoria, ShippingAddress
 from django.forms.widgets import FileInput
 
 
@@ -59,3 +59,33 @@ class ProductForm(ModelForm):
             'imagen2': FileInput(attrs={'class': 'form-control'}),
             
         }
+
+class ShippingAddressForm(forms.ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = [
+            'nombre', 'apellido', 'direccion', 'numero', 
+            'ciudad', 'estado', 'codigo_postal', 'pais', 'telefono'
+        ]
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
+            'numero': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ciudad'}),
+            'estado': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Provincia'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código Postal'}),
+            'pais': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'País'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Teléfono'}),
+        }
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ShippingAddressForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super(ShippingAddressForm, self).save(commit=False)
+        if self.user:
+            instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
