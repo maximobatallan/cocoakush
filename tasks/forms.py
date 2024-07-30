@@ -78,14 +78,3 @@ class ShippingAddressForm(forms.ModelForm):
             'pais': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'País'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Teléfono'}),
         }
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(ShippingAddressForm, self).__init__(*args, **kwargs)
-
-    def save(self, commit=True):
-        instance = super(ShippingAddressForm, self).save(commit=False)
-        if self.user:
-            instance.user = self.user
-        if commit:
-            instance.save()
-        return instance
