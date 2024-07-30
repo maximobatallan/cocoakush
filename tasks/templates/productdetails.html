@@ -75,13 +75,13 @@
                                  <div class="filter color">
                                     <h6 style="font-size: 20px;" class="label">Elija el color :</h6>
       
-                                    {% for color in colores %}
-                                        <label class="container">{{ color|upper }}
-                                             <input type="radio" name="color" value="{{ color }}" onchange="redirectToColorAndTalle('{{ color }}')" {% if color == color_seleccionado %} checked {% endif %} required>
+                                   
+                                        <label class="container">{{ colores|upper }}
+                                             <input type="radio" name="color" value="{{ colores }}" onchange="redirectToColorAndTalle('{{ colores }}')" {% if colores == color_seleccionado %} checked {% endif %} required>
                                              
                                              <span class="checkmark"></span>
                                         </label>
-                                    {% endfor %}
+                                   
                                 </div>
                              </div>
                                 <div class="col-lg-6 mb-2">
