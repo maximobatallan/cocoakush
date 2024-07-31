@@ -148,7 +148,9 @@
         padding: 0px;
     }
 
-
+    .product-details {
+        padding: 0px 0px;
+    }
     .breadcrumb-area h1 {
         font-size: 24px;
         text-align: center;
