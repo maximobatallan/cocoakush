@@ -340,8 +340,8 @@ h2.subtitle::after {
     border: none;
     position: relative;
     background-color: #F7700D;
-    color: #F7700D;
-    padding: 12px 24px;
+    color: #000000;
+    padding: 12px 99px;
     text-transform: uppercase;
     font-weight: 600;
     cursor: pointer;
@@ -366,7 +366,7 @@ h2.subtitle::after {
     left: 0px;
     height: 100%;
     width: 0%;
-    background-color: #000000;
+
 }
 
 .form-element button[type="submit"]::after,
