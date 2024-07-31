@@ -22,7 +22,8 @@
    
 {% block content %}
    <body>
-     
+
+    
       
               <!--  Cart Table Start  --> 
               <div class="cart-table">
@@ -67,9 +68,7 @@
                             <td colspan="6">
                               
       
-                               <div class="cartbtn-container">
-                                 
-                                  <a class="cartbtn cart" href="#detallecompra">Ir a Pagar</a>
+                            
                          
          {% else %}
                                 
@@ -96,244 +95,21 @@
 
 
 
-
-
-
-
-
-
-<!--     Shipping Address Start      -->
-
-<div class="container mt-5">
-   <div class="row">
-       <div class="col-lg-12">
-           <div class="card">
-               <div class="card-header">
-                   <h5>Dirección de Envío</h5>
-               </div>
-           </div>
-       </div>
-   </div>
-
-   <form method="post" action="{% url 'cotizar' %}">
-       {% csrf_token %}
-
-       <div class="row mt-4">
-           <div class="col-lg-6">
-               <div class="form-group">
-                   <label for="nombre">Nombre:</label>
-                   <input type="text" id="nombre" name="nombre" required class="form-control" placeholder="Nombre">
-               </div>
-           </div>
-           <div class="col-lg-6">
-               <div class="form-group">
-                   <label for="apellido">Apellido:</label>
-                   <input type="text" id="apellido" name="apellido" required class="form-control" placeholder="Apellido">
-               </div>
-           </div>
-       </div>
-
-       <div class="row mt-4">
-           <div class="col-lg-6">
-               <div class="form-group">
-                   <label for="direccion">Dirección:</label>
-                   <input type="text" id="direccion" name="direccion" required class="form-control" placeholder="Dirección">
-               </div>
-           </div>
-           <div class="col-lg-6">
-               <div class="form-group">
-                   <label for="numero">Número:</label>
-                   <input type="text" id="numero" name="numero" required class="form-control" placeholder="Número">
-               </div>
-           </div>
-       </div>
-
-       <div class="row mt-4">
-           <div class="col-lg-4">
-               <div class="form-group">
-                   <label for="ciudad">Ciudad:</label>
-                   <input type="text" id="ciudad" name="ciudad" required class="form-control" placeholder="Ciudad">
-               </div>
-           </div>
-           <div class="col-lg-4">
-               <div class="form-group">
-                   <label for="estado">Provincia:</label>
-                   <input type="text" id="estado" name="estado" required class="form-control" placeholder="Provincia">
-               </div>
-           </div>
-           <div class="col-lg-4">
-               <div class="form-group">
-                   <label for="codigo_postal">Código Postal:</label>
-                   <input type="text" id="codigo_postal" name="codigo_postal" required class="form-control" placeholder="Código Postal">
-               </div>
-           </div>
-       </div>
-
-       <div class="row mt-4">
-           <div class="col-lg-6">
-               <div class="form-group">
-                   <label for="pais">País:</label>
-                   <input type="text" id="pais" name="pais" required class="form-control" placeholder="País">
-               </div>
-           </div>
-           <div class="col-lg-6">
-               <div class="form-group">
-                   <label for="telefono">Teléfono:</label>
-                   <input type="text" id="telefono" name="telefono" required class="form-control" placeholder="Teléfono">
-               </div>
-           </div>
-       </div>
-
-       <div class="row mt-4">
-           <div class="col-lg-12 text-left">
-               <button type="submit" class="btn btn-primary">Enviar Cotización</button>
-           </div>
-       </div>
-   </form>
-</div>
-
-<!--     Shipping Address End      -->
-
-
-
-
-
-
-
-      
-            <div id="detallecompra" class="container">
-               <div class="row">
-            <div class="col-lg-12" style="padding-bottom: 22px;">
-            <div class="card">
-               <div class="card-header">
-                  <h5 style="color: #1a0028;">Cupón de Descuento</h5>
-               </div>
-               <div class="card-body">
-                  <form method="post">
-                     {% csrf_token %}
-                     
-                     <div class="coupon-input">
-                        <input type="text" name="cupon_nombre" placeholder="Ingresa cupón">
-                        <button type="submit">Aplicar</button>
-                     </div>
-                  </form>
-               </div>
-            </div>      </div>      </div></div>
-
-       
-   
-
-
-
-
-
-         <div id="detallecompra" class="container">
-            <div class="row">
-               <div class="col-lg-12" style="padding-bottom: 22px;">
-                  <div class="card">
-                     <div class="card-header">
-                        <h5 style="color: #1a0028;">Detalle de Compra</h5>
-                     </div>
-                     <div class="card-body">
-                        {% if cupon_encontrado %}
-                        <div class="calculations">
-                           <div class="single-calc">
-                              <strong>Subtotal</strong>
-                              <strong>  <del>$ {{ subtotal }}</del></strong>
-                           </div>
-                        
-
-                              <div class="single-calc">
-                                 <strong>Descuento de {{ nombrecupon }}</strong>
-                                 <strong>{{ descuento }}%</strong>
-                              </div>
-                              <div class="single-calc total">
-                              
-
-                                 <strong>Total</strong>
-
-                                 <strong>$ {{ total_compra }}</strong>
-                              
-                              
-                            
-                              </div>
-                            
-                             
+            <div class="container">
+                <h4 class="title">Dirección de envío</h4>
+                <div class="form-element">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Ir a Pagar</button>
                         </div>
-
-                           {% else %}
-
-                           <div class="calculations">
-                   
-                              <div class="single-calc total">
-                             
-                        
-                              <strong>Total</strong>
-                              <strong>$ {{ total_compra }}</strong>
-                              {% endif %}
-                           </div>
-
-
-
-
-
-
-
-                        </div>
-                     <br>
-                           <div class="row">
-                              
-                               <!-- Payment Confirmation Button -->
-            <div class="col-lg-8 mt-4">
-               <form action="{% url 'datosbanco' %}" method="post">
-                   {% csrf_token %}
-                   <input type="hidden" name="total_compra" value="{{ total_compra }}">
-                   <button type="submit" class="cartbtn cart">Transferencia Bancaria 5% OFF adicional</button>
-               </form>
-           </div>
-                              <div class="col-lg-4">
-                                 
-                                    <div id="wallet_container"></div>
-                              
-                              </div>
-                           </div>
-                    
-                     </div>
-                  </div>
-               </div>
+                    </form>
+                </div>
             </div>
-         </div>
-      </div>
-      <!--  Cart Cards Area End  -->  
-      
-      {% if nombrecupon != 1 %}
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var nombrecupon = "{{ nombrecupon }}";
-                if (typeof nombrecupon === 'string') {
-                    var detallecompraElement = document.getElementById('detallecompra');
-                    if (detallecompraElement) {
-                        detallecompraElement.scrollIntoView();
-                    }
-                }
-            });
-        </script>
-    {% endif %}
-      
-      <script src="https://sdk.mercadopago.com/js/v2"></script>
+            
 
-     
-    
-      <script>
-        const mp = new MercadoPago('APP_USR-f98a79c9-89ef-4891-9215-ff35a331df51');
-        const bricksBuilder = mp.bricks();
-      
-        mp.bricks().create("wallet", "wallet_container", {
-          initialization: {
-            preferenceId: "{{ preference_id }}",
-          },
-        });
-      </script>
+
       
       {% include "footer.html" %}
       
