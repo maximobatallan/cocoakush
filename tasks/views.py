@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm, DatosForm, ProductForm, ShippingAddressForm
-from .models import Task, Producto, DatosPersonales, Categoria, formulario,compra, cupon, Stock
+from .models import Task, Producto, DatosPersonales, Categoria, formulario,compra, cupon, Stock, ShippingAddress
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -25,6 +25,7 @@ from facebook_business.adobjects.serverside.event_request import EventRequest
 from facebook_business.adobjects.serverside.gender import Gender
 from facebook_business.adobjects.serverside.user_data import UserData
 from facebook_business.api import FacebookAdsApi
+
 
 
 
@@ -422,11 +423,23 @@ def cart(request):
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
 
+        if request.method == 'POST':
+            form = ShippingAddressForm(request.POST)
+            if form.is_valid():
+                # Procesar el formulario
+                form.save()
+            
+                redirect_to = request.POST.get('redirect_to', 'checkout')
+                return redirect(redirect_to)
+                
+        else:
+            form = ShippingAddressForm()
 
-        
       
-
-        return render(request, "cart.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon} )
+                
+      
+        
+        return render(request, "cart.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form} )
 
     else: 
         
@@ -436,7 +449,7 @@ def cart(request):
     
 
 def cotizar(request):
-    print('river')
+   
     if request.method == 'POST':
         form = ShippingAddressForm(request.POST)
         if form.is_valid():
@@ -943,3 +956,145 @@ def terminosycondiciones(request):
 def politicadeprivacidad(request):
 
     return render(request, "politicadeprivacidad.html")
+
+
+
+
+
+
+def checkout(request):
+    cat = Categoria.objects.all()
+    precioanterior = 0
+
+    desc = 0
+    subtotal = 0
+    total_aum = 0
+    preference_data = { "items": [] }
+    cupon_no_encontrado = False
+    cupon_encontrado = False
+    descuento= 1
+    nombre_cupon = 1
+
+
+
+    
+    
+    if request.method == 'POST':
+        nombre_cupon = request.POST.get('cupon_nombre')
+        if nombre_cupon is not None:
+            nombre_cupon = nombre_cupon.lower()
+        try:
+            cupon_obj = cupon.objects.get(nombre=nombre_cupon)
+        
+            cupon_obj.contador += 1
+            cupon_obj.save()  # Guardar el cupon_obj con el contador actualizado
+
+            descuento = cupon_obj.descuento
+            cupon_no_encontrado = False
+            cupon_encontrado = True
+        except cupon.DoesNotExist:
+            cupon_no_encontrado = True
+            cupon_encontrado = False
+    
+
+    else:
+        pass
+    if "carrito" in request.session and request.session["carrito"]:
+        for key, value in request.session["carrito"].items():
+           
+            precioanterior = int(value["precioanterior"])
+          
+           
+            total_aum += int(precioanterior)
+            subtotal += int(value["precio"]*value["cantidad"] )
+            
+        
+        if cupon_encontrado == True:
+
+            item = {
+                        "title": value["nombre"],
+                        "quantity": 1,
+                        "unit_price": subtotal-(subtotal*descuento/100),
+                    }
+         
+ 
+            preference_data["items"].append(item)
+        
+        
+            total_compra = subtotal-(subtotal*descuento/100)
+         
+        else:
+            item = {
+                        "title": value["nombre"],
+                        "quantity": 1,
+                        "unit_price": subtotal,
+                    }
+         
+ 
+            preference_data["items"].append(item)
+        
+            total_compra = int(subtotal)
+        
+
+
+        current_time = int(time.time())
+        access_token = os.environ.get('access_token_meta')
+        pixel_id = os.environ.get('pixel_id_meta')
+        FacebookAdsApi.init(access_token=access_token)
+
+        user_data_0 = UserData(
+            emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+            phones=[]
+        )
+        custom_data_0 = CustomData(
+            value= value["precio"],
+            currency="ARS"
+        )
+        event_0 = Event(
+            event_name="InitiateCheckout",
+            event_time= current_time,
+            user_data=user_data_0,
+            custom_data=custom_data_0
+        
+        )
+        
+        events = [event_0]
+        event_request = EventRequest(
+            events=events,
+            pixel_id=pixel_id
+        )
+        event_response = event_request.execute()
+
+        total_compra = round(total_compra, 2)
+        sdk = mercadopago.SDK("APP_USR-5213772683732349-061323-dc5bd7f2a56c2080735653bb6d1901e7-97277305")
+        preference_data["back_urls"] = {
+        "success": "https://cocoakush.ar/pedido/",
+        "failure": "https://cocoakush.ar/checkout/",
+        "pending": "https://cocoakush.ar/pendiente/"
+    }
+        preference_data["auto_return"] = "approved"
+        
+        
+        preference_response = sdk.preference().create(preference_data)
+        preference = preference_response["response"]
+
+        if request.method == 'POST':
+            form = ShippingAddressForm(request.POST)
+            if form.is_valid():
+                # Procesar el formulario
+                form.save()
+                
+                # Redirigir o mostrar un mensaje de éxito
+                return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form} )
+        else:
+            form = ShippingAddressForm()
+
+      
+                
+      
+        
+        return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form} )
+
+    else: 
+        
+        return redirect("gallery")
