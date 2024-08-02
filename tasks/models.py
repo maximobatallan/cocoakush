@@ -86,9 +86,12 @@ class Stock(models.Model):
     
 
 class ShippingAddress(models.Model):
-    
+   
+  
+
     nombre = models.CharField(max_length=255)
     apellido = models.CharField(max_length=255)
+    email = models.EmailField(max_length=254)
     direccion = models.CharField(max_length=255)
     numero = models.CharField(max_length=50)
     ciudad = models.CharField(max_length=100)
@@ -99,4 +102,4 @@ class ShippingAddress(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.nombre} {self.apellido}, {self.direccion} {self.numero}, {self.ciudad}, {self.estado}, {self.pais}"
+        return f"{self.nombre} {self.apellido}, {self.direccion} {self.numero}, {self.ciudad}, {self.estado}, {self.pais}, {self.user.username}, {self.email}"

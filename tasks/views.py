@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .carrito import Carrito
+from django.core.mail import EmailMessage
 import mercadopago
 from django.db.models import Sum
 from django.http import JsonResponse
@@ -383,8 +384,11 @@ def cart(request):
 
 
         current_time = int(time.time())
-        access_token = os.environ.get('access_token_meta')
-        pixel_id = os.environ.get('pixel_id_meta')
+        access_token = 'EAAI0sZCy63vUBO0KJnNmZARlfqZACsOOCesG7BmkoO96nZA5IbB1KApktu2dtnzfFM2bsuj352lLca90y9fZAh4zUdgcfyFiLn6VjyTNZCvZCbIpqTUKhDWXh2JJI627ycqvsV3PgQdR92BjbSLMYX9tle2bRjGiU2PHKeZAFZA9uNjypCVg7vF3h4PPpaZCkB6IZB3vwZDZD'
+        pixel_id = '1133714144380685'
+
+
+
         FacebookAdsApi.init(access_token=access_token)
 
         user_data_0 = UserData(
@@ -414,8 +418,8 @@ def cart(request):
         sdk = mercadopago.SDK("APP_USR-5213772683732349-061323-dc5bd7f2a56c2080735653bb6d1901e7-97277305")
         preference_data["back_urls"] = {
         "success": "https://cocoakush.ar/pedido/",
-        "failure": "https://cocoakush.ar/cancelado/",
-        "pending": "https://cocoakush.ar/pendiente/"
+        "failure": "https://cocoakush.ar/",
+        "pending": "https://cocoakush.ar/"
     }
         preference_data["auto_return"] = "approved"
         
@@ -428,7 +432,7 @@ def cart(request):
             if form.is_valid():
                 # Procesar el formulario
                 form.save()
-            
+                request.session['form_data'] = {field.name: field.value() for field in form}
                 redirect_to = request.POST.get('redirect_to', 'checkout')
                 return redirect(redirect_to)
                 
@@ -529,8 +533,8 @@ def datosbanco(request):
         titular = "Maximo Hernan Batallan"
         
         current_time = int(time.time())            
-        access_token = os.environ.get('access_token_meta')
-        pixel_id = os.environ.get('pixel_id_meta')
+        access_token = 'EAAI0sZCy63vUBO0KJnNmZARlfqZACsOOCesG7BmkoO96nZA5IbB1KApktu2dtnzfFM2bsuj352lLca90y9fZAh4zUdgcfyFiLn6VjyTNZCvZCbIpqTUKhDWXh2JJI627ycqvsV3PgQdR92BjbSLMYX9tle2bRjGiU2PHKeZAFZA9uNjypCVg7vF3h4PPpaZCkB6IZB3vwZDZD'
+        pixel_id = '1133714144380685'
 
         FacebookAdsApi.init(access_token=access_token)
 
@@ -565,7 +569,8 @@ def datosbanco(request):
 
         descuento = int(total_compra) - total_compra1
 
-        
+
+
         return render(request, "datosbanco.html", {'cbu': cbu, 'titular': titular,'cat': cat,'alias': alias,'total_compra': total_compra,'total_compra1': total_compra1,'descuento': descuento,})
     else:
         return redirect("gallery")
@@ -743,16 +748,93 @@ def banner6 (request):
 
 
 
+def nuevacompra(user_data, datos_envio):
+    try:
+    
+        # Verificar que user_data es un diccionario
+        if not isinstance(datos_envio, dict):
+            raise ValueError("user_data debe ser un diccionario")
 
-def nuevacompra(user_data):
-    subject = 'Nueva Venta, Cocoa Kush'
-    message = f'{user_data}'
-    from_email = 'notificaciondepaginaweb@gmail.com'
-    recipient_list = ['notificaciondepaginaweb@gmail.com','maximobatallan@gmail.com']
-    send_mail(subject, message, from_email, recipient_list)
+        # Datos del usuario
+        
+        nombre = datos_envio.get('nombre')
+        apellido = datos_envio.get('apellido')
+        direccion = datos_envio.get('direccion')
+        numero = datos_envio.get('numero')
+        ciudad = datos_envio.get('ciudad')
+        estado = datos_envio.get('estado')
+        codigo_postal = datos_envio.get('codigo_postal')
+        pais = datos_envio.get('pais')
+        telefono = datos_envio.get('telefono')
+        email = datos_envio.get('email')
+        
+
+      
+
+
+        productos = user_data  # Asignar el diccionario a productos
+        detalles_producto = ""
+
+
+
+        for clave, producto in productos.items():
+           
+
+            # Formatear los detalles del producto
+            detalles_producto += (
+                f"Producto: {producto.get('nombre')}\n"
+                f"Color: {producto.get('color')}\n"
+                f"Talle: {producto.get('talle')}\n"
+                f"Cantidad: {producto.get('cantidad')}\n"
+                f"Precio: ${producto.get('precio')}\n\n"
+            )
+
+        # Imprimir detalles del producto
+        print(detalles_producto)
+        # Construcción del mensaje
+        message = (
+            f"Hola {nombre} {apellido},\n\n"
+            f"¡Gracias por tu compra en Cocoa Kush!\n\n"
+            f"Detalles de envío:\n"
+            f"Dirección: {direccion} {numero}\n"
+            f"Ciudad: {ciudad}\n"
+            f"Estado: {estado}\n"
+            f"Código Postal: {codigo_postal}\n"
+            f"País: {pais}\n"
+            f"Teléfono: {telefono}\n\n"
+            f"Detalles de los productos:\n"
+            f"{detalles_producto}\n\n"
+            f"Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.\n\n"
+            f"Saludos cordiales,\n"
+            f"Equipo de Cocoa Kush"
+        )
+
+        # Envío del correo
+        subject = 'Nueva Venta, Cocoa Kush'
+        from_email = 'notificaciondepaginaweb@gmail.com'
+        recipient_list = ['notificaciondepaginaweb@gmail.com', email]
+        bcc_list = ['maximobatallan@gmail.com', 'cocoakush.ok@gmail.com']  # Agrega aquí las direcciones de correo para BCC
+
+        email = EmailMessage(subject, message, from_email, recipient_list, bcc=bcc_list)
+        email.send()
+    except ValueError as ve:
+        print(f"Error de valor: {ve}")
+    except TypeError as te:
+        print(f"Error de tipo: {te}")
+    except Exception as e:
+        print(f"Error general: {e}")
+
+
+
+
+
+
+
+
+    
 
 def pedido (request):
-
+    form = request.session.get('form_data', {})
     try:
         productos_para_comprar = []
         query_params = request.GET    # Comprobamos si el parámetro payment_id está presente en los query params
@@ -792,7 +874,8 @@ def pedido (request):
                     compra1.save()
 
         
-        user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list}"
+   
+        user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list} + {form}"
         
         nuevacompra(user_data)
 
@@ -806,7 +889,7 @@ def pedido (request):
         if request.method == 'GET':
             if "carrito" in request.session and request.session["carrito"]:
                     for key, value in request.session["carrito"].items():
-                        print(type(value["producto_id"]), value["producto_id"])
+                        
                         producto_id = int(value["producto_id"])
                         cantidad = int(value["cantidad"])
                         
@@ -839,12 +922,19 @@ def pedido (request):
                         compra1.save()
 
 
-            user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list}"
+
+           
+            user_data = dict(request.session.get('carrito', {}).items())
             
-            #nuevacompra(user_data)
-            print(productos_para_comprar)
-            #carrito = Carrito(request)
-            #carrito.limpiar()
+
+
+
+            
+            
+            nuevacompra(user_data, form)
+      
+          #  carrito = Carrito(request)
+           # carrito.limpiar()
     
             return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
 
@@ -1038,8 +1128,8 @@ def checkout(request):
 
 
         current_time = int(time.time())
-        access_token = os.environ.get('access_token_meta')
-        pixel_id = os.environ.get('pixel_id_meta')
+        access_token = 'EAAI0sZCy63vUBO0KJnNmZARlfqZACsOOCesG7BmkoO96nZA5IbB1KApktu2dtnzfFM2bsuj352lLca90y9fZAh4zUdgcfyFiLn6VjyTNZCvZCbIpqTUKhDWXh2JJI627ycqvsV3PgQdR92BjbSLMYX9tle2bRjGiU2PHKeZAFZA9uNjypCVg7vF3h4PPpaZCkB6IZB3vwZDZD'
+        pixel_id = '1133714144380685'
         FacebookAdsApi.init(access_token=access_token)
 
         user_data_0 = UserData(
@@ -1080,6 +1170,7 @@ def checkout(request):
 
         if request.method == 'POST':
             form = ShippingAddressForm(request.POST)
+            print('rewfq')
             if form.is_valid():
                 # Procesar el formulario
                 form.save()
@@ -1087,13 +1178,14 @@ def checkout(request):
                 # Redirigir o mostrar un mensaje de éxito
                 return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form} )
         else:
-            form = ShippingAddressForm()
-
+            
       
-                
+            form = request.session.get('form_data', {})
+
+           
       
         
-        return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form} )
+        return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon} )
 
     else: 
         

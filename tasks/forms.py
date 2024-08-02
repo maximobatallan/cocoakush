@@ -65,11 +65,12 @@ class ShippingAddressForm(forms.ModelForm):
         model = ShippingAddress
         fields = [
             'nombre', 'apellido', 'direccion', 'numero', 
-            'ciudad', 'estado', 'codigo_postal', 'pais', 'telefono'
+            'ciudad', 'estado', 'codigo_postal', 'pais', 'telefono', 'email'
         ]
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
             'numero': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número'}),
             'ciudad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ciudad'}),
@@ -77,4 +78,5 @@ class ShippingAddressForm(forms.ModelForm):
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código Postal'}),
             'pais': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'País'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Teléfono'}),
+            
         }
