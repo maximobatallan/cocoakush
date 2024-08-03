@@ -2067,8 +2067,9 @@ ul.search-cart-area {
 .quote-form-section button[type="submit"] {
     padding: 12px 38px;
     border-radius: 3px;
-    background-color: black;
+    background-color: #f7700d;
     position: relative;
+    border: 5px solid #000; /* 2px de ancho, borde sólido, color negro */
 }
 
 
