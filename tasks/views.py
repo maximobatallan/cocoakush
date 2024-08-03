@@ -272,7 +272,6 @@ def galeriaprueba(request):
 def detalleproducto(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
     cat = Categoria.objects.all()
-    primer_color = Stock.objects.filter(producto_id=producto_id).values_list('color', flat=True).distinct().first()
     
 
     nombre_producto = producto.nombre
@@ -281,7 +280,9 @@ def detalleproducto(request, producto_id):
 
 
     color_seleccionado = colorennombre.lower()
-    primer_talle = Stock.objects.filter(producto_id=producto_id,color=color_seleccionado).values_list('talle', flat=True).distinct().first()
+    primer_talle = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado, cantidad__gt=0).values_list('talle', flat=True).distinct().first()
+
+
     talle_seleccionado = request.GET.get('talle', primer_talle)
 
 
@@ -290,13 +291,13 @@ def detalleproducto(request, producto_id):
         talle_seleccionado = primer_talle
     
 
-    stock = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado).values_list('talle', flat=True).distinct()
+    stock = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado, cantidad__gt=0).values_list('talle', flat=True).distinct()
  
     nombre_producto = producto.nombre
   
 
     cantidad_total = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado,talle=talle_seleccionado).aggregate(total_cantidad=Sum('cantidad'))['total_cantidad']
-
+    print(cantidad_total)
 
     colores = colorennombre.lower()
 
@@ -870,7 +871,7 @@ def pedido (request):
 
                  
                     
-                    compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden=payment_id)
+                    compra1 = compra(producto_id=id, cantidad=cantidad, precio=precio, orden=payment_id)
                     compra1.save()
 
         
@@ -896,11 +897,11 @@ def pedido (request):
                         precio  = int(value["precio"])
                         nombre = str(value["nombre"])
 
-                        stock_existe = Stock.objects.filter(producto=value["producto_id"], color=value["color"], talle=value["talle"]).first()
-                        if stock_existe.cantidad == 0:
+                        stock_existe = Stock.objects.filter(color=value["color"], talle=value["talle"]).first()
+                        if stock_existe.cantidad != 0:
                             # Restar 1 a la cantidad
                             stock_existe.cantidad -= 1
-                            
+                            print(stock_existe)
                             # Verificar si la cantidad es menor a 0 y ajustar si es necesario
                             if stock_existe.cantidad < 0:
                                 stock_existe.cantidad = 0
@@ -1190,3 +1191,7 @@ def checkout(request):
     else: 
         
         return redirect("gallery")
+    
+
+
+
