@@ -859,26 +859,26 @@ def pedido (request):
                     nombre = str(value["nombre"])
 
     
-                  
-
                     producto = {
-                    'cantidad': cantidad,
-                  
-                    'nombre': nombre
-                    }
+                        'cantidad': cantidad,
+                    
+                        'nombre': nombre
+                        }
                     productos_para_comprar.append(producto)
 
-
-                 
-                    
-                    compra1 = compra(producto_id=id, cantidad=cantidad, precio=precio, orden=payment_id)
+                        
+                        
+                    compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden=payment_id)
                     compra1.save()
 
+
+
+                    
+                    user_data = dict(request.session.get('carrito', {}).items())
+
+
         
-   
-        user_data = f"{request.session['carrito'].items()}, Datos Mercadolibre {params_list} + {form}"
-        
-        nuevacompra(user_data)
+        nuevacompra(user_data, form)
 
         carrito = Carrito(request)
         carrito.limpiar()
@@ -934,8 +934,8 @@ def pedido (request):
             
             nuevacompra(user_data, form)
       
-          #  carrito = Carrito(request)
-           # carrito.limpiar()
+            carrito = Carrito(request)
+            carrito.limpiar()
     
             return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
 
