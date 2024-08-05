@@ -7,7 +7,6 @@ from .forms import TaskForm, DatosForm, ProductForm, ShippingAddressForm
 from .models import Task, Producto, DatosPersonales, Categoria, formulario,compra, cupon, Stock, ShippingAddress
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-# Create your views here.
 from .carrito import Carrito
 from django.core.mail import EmailMessage
 import mercadopago
@@ -385,8 +384,8 @@ def cart(request):
 
 
         current_time = int(time.time())
-        access_token = 'EAAI0sZCy63vUBO0KJnNmZARlfqZACsOOCesG7BmkoO96nZA5IbB1KApktu2dtnzfFM2bsuj352lLca90y9fZAh4zUdgcfyFiLn6VjyTNZCvZCbIpqTUKhDWXh2JJI627ycqvsV3PgQdR92BjbSLMYX9tle2bRjGiU2PHKeZAFZA9uNjypCVg7vF3h4PPpaZCkB6IZB3vwZDZD'
-        pixel_id = '1133714144380685'
+        access_token = os.environ.get('access_token_meta')
+        pixel_id = os.environ.get('pixel_id_meta')
 
 
 
@@ -476,35 +475,7 @@ def cotizar(request):
 
 
 def sendmail(request):
-    current_time = int(time.time())
-    access_token = os.environ.get('access_token_meta')
-    pixel_id = os.environ.get('pixel_id_meta')
 
-
-
-    FacebookAdsApi.init(access_token=access_token)
-
-    user_data_0 = UserData(
-        emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
-        phones=["d36e83082288d9f2c98b3f3f87cd317a31e95527cb09972090d3456a7430ad4d"]
-    )
-    custom_data_0 = CustomData(
-        value=1,
-        currency="ARS"
-    )
-    event_0 = Event(
-        event_name="Purchase",
-        event_time=current_time,
-        user_data=user_data_0,
-        custom_data=custom_data_0,
-    )
-
-    events = [event_0]
-    event_request = EventRequest(
-        events=events,
-        pixel_id=pixel_id
-    )
-    event_response = event_request.execute()
     if request.method == 'POST':
         mail = request.POST.get('mail')
     asunto= 'Confirmación de Compra'
@@ -534,32 +505,7 @@ def datosbanco(request):
         titular = "Maximo Hernan Batallan"
         
         current_time = int(time.time())            
-        access_token = 'EAAI0sZCy63vUBO0KJnNmZARlfqZACsOOCesG7BmkoO96nZA5IbB1KApktu2dtnzfFM2bsuj352lLca90y9fZAh4zUdgcfyFiLn6VjyTNZCvZCbIpqTUKhDWXh2JJI627ycqvsV3PgQdR92BjbSLMYX9tle2bRjGiU2PHKeZAFZA9uNjypCVg7vF3h4PPpaZCkB6IZB3vwZDZD'
-        pixel_id = '1133714144380685'
-
-        FacebookAdsApi.init(access_token=access_token)
-
-        user_data_0 = UserData(
-            emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
-            phones=[]
-        )
-        custom_data_0 = CustomData(
-            value=1,
-            currency="ARS"
-        )
-        event_0 = Event(
-            event_name="InitiateCheckout",
-            event_time=current_time,
-            user_data=user_data_0,
-            custom_data=custom_data_0
-        )
-
-        events = [event_0]
-        event_request = EventRequest(
-            events=events,
-            pixel_id=pixel_id
-        )
-        event_response = event_request.execute()
+ 
 
         total_compra = request.POST.get('total_compra')
         total_compra1 = float(total_compra)
@@ -901,7 +847,7 @@ def pedido (request):
                         if stock_existe.cantidad != 0:
                             # Restar 1 a la cantidad
                             stock_existe.cantidad -= 1
-                            print(stock_existe)
+                          
                             # Verificar si la cantidad es menor a 0 y ajustar si es necesario
                             if stock_existe.cantidad < 0:
                                 stock_existe.cantidad = 0
@@ -958,7 +904,35 @@ def pedido (request):
             else:
                 categorias_productos[categoria] = [id]
     
-   
+        current_time = int(time.time())
+        access_token = os.environ.get('access_token_meta')
+        pixel_id = os.environ.get('pixel_id_meta')
+
+
+
+        FacebookAdsApi.init(access_token=access_token)
+
+        user_data_0 = UserData(
+            emails=["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+            phones=["d36e83082288d9f2c98b3f3f87cd317a31e95527cb09972090d3456a7430ad4d"]
+        )
+        custom_data_0 = CustomData(
+            value=1,
+            currency="ARS"
+        )
+        event_0 = Event(
+            event_name="Purchase",
+            event_time=current_time,
+            user_data=user_data_0,
+            custom_data=custom_data_0,
+        )
+
+        events = [event_0]
+        event_request = EventRequest(
+            events=events,
+            pixel_id=pixel_id
+        )
+        event_response = event_request.execute()
 
         return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
 
@@ -1129,8 +1103,8 @@ def checkout(request):
 
 
         current_time = int(time.time())
-        access_token = 'EAAI0sZCy63vUBO0KJnNmZARlfqZACsOOCesG7BmkoO96nZA5IbB1KApktu2dtnzfFM2bsuj352lLca90y9fZAh4zUdgcfyFiLn6VjyTNZCvZCbIpqTUKhDWXh2JJI627ycqvsV3PgQdR92BjbSLMYX9tle2bRjGiU2PHKeZAFZA9uNjypCVg7vF3h4PPpaZCkB6IZB3vwZDZD'
-        pixel_id = '1133714144380685'
+        access_token = os.environ.get('access_token_meta')
+        pixel_id = os.environ.get('pixel_id_meta')
         FacebookAdsApi.init(access_token=access_token)
 
         user_data_0 = UserData(
