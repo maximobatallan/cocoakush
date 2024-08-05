@@ -116,7 +116,7 @@
                                             <th scope="col">Imagen</th>
                                             <th scope="col">Titulo</th>
                                             <th scope="col">Cantidad</th>
-                                            <th scope="col">Total</th>
+                                       
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -131,9 +131,7 @@
                                             <td>
                                                 <input class="quantity" type="number" name="cantidad" value="{{ value.cantidad }}" min="1" disabled>
                                             </td>
-                                            <td class="total">
-                                                <span>$ {{ value.acumulado }}</span>
-                                            </td>
+                                        
                                         </tr>
                                         {% endfor %}
                                     </tbody>
