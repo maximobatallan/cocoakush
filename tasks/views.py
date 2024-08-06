@@ -732,7 +732,7 @@ def nuevacompra(user_data, datos_envio):
                 f"Producto: {producto.get('nombre')}\n"
                 f"Color: {producto.get('color')}\n"
                 f"Talle: {producto.get('talle')}\n"
-                f"Cantidad: {producto.get('cantidad')}\n"
+                f"Cantidad: {producto.get('cantidad')}\n\n\n"
               
             )
 
