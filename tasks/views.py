@@ -804,6 +804,40 @@ def pedido (request):
                     precio  = int(value["precio"])
                     nombre = str(value["nombre"])
 
+
+
+                    
+                    stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
+                    if stock_existe.cantidad != 0:
+                        # Restar 1 a la cantidad
+                        stock_existe.cantidad -= 1
+                      
+                        # Verificar si la cantidad es menor a 0 y ajustar si es necesario
+                        if stock_existe.cantidad < 0:
+                            stock_existe.cantidad = 0
+                        
+                        # Guardar los cambios en la base de datos
+                        stock_existe.save()
+                     
+                
+                    producto = {
+                    'cantidad': cantidad,
+                
+                    'nombre': nombre
+                    }
+                    productos_para_comprar.append(producto)
+
+                    
+                    
+                    compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden='Transferencia')
+                    compra1.save()
+
+                    else:
+                        carrito = Carrito(request)
+                        carrito.limpiar()
+                        return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
+
+        
     
                     producto = {
                         'cantidad': cantidad,
@@ -843,7 +877,7 @@ def pedido (request):
                         precio  = int(value["precio"])
                         nombre = str(value["nombre"])
 
-                        stock_existe = Stock.objects.filter(color=value["color"], talle=value["talle"]).first()
+                        stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
                         if stock_existe.cantidad != 0:
                             # Restar 1 a la cantidad
                             stock_existe.cantidad -= 1
@@ -868,7 +902,11 @@ def pedido (request):
                         compra1 = compra(producto_id=producto_id, cantidad=cantidad, precio=precio, orden='Transferencia')
                         compra1.save()
 
-
+                        else:
+                            carrito = Carrito(request)
+                            carrito.limpiar()
+                            return render(request, "home.html", {'categorias_productos': categorias_productos, 'productos': productos, 'cat': cat} )
+                            
 
            
             user_data = dict(request.session.get('carrito', {}).items())
@@ -879,7 +917,7 @@ def pedido (request):
             
             
             nuevacompra(user_data, form)
-      
+                      
             carrito = Carrito(request)
             carrito.limpiar()
     
