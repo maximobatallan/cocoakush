@@ -733,7 +733,7 @@ def nuevacompra(user_data, datos_envio):
                 f"Color: {producto.get('color')}\n"
                 f"Talle: {producto.get('talle')}\n"
                 f"Cantidad: {producto.get('cantidad')}\n"
-                f"Precio: ${producto.get('precio')}\n\n"
+              
             )
 
         # Imprimir detalles del producto
@@ -757,7 +757,7 @@ def nuevacompra(user_data, datos_envio):
         )
 
         # Envío del correo
-        subject = 'Nueva Venta, Cocoa Kush'
+        subject = 'Confirmación de Compra, Cocoa Kush'
         from_email = 'notificaciondepaginaweb@gmail.com'
         recipient_list = ['notificaciondepaginaweb@gmail.com', email]
         bcc_list = ['maximobatallan@gmail.com', 'cocoakush.ok@gmail.com']  # Agrega aquí las direcciones de correo para BCC
