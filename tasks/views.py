@@ -296,7 +296,7 @@ def detalleproducto(request, producto_id):
   
 
     cantidad_total = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado,talle=talle_seleccionado).aggregate(total_cantidad=Sum('cantidad'))['total_cantidad']
-    print(cantidad_total)
+  
 
     colores = colorennombre.lower()
 
@@ -737,7 +737,7 @@ def nuevacompra(user_data, datos_envio):
             )
 
         # Imprimir detalles del producto
-        print(detalles_producto)
+   
         # Construcción del mensaje
         message = (
             f"Hola {nombre} {apellido},\n\n"
@@ -779,7 +779,6 @@ def nuevacompra(user_data, datos_envio):
 
 
     
-
 def pedido (request):
     form = request.session.get('form_data', {})
     try:
@@ -804,7 +803,7 @@ def pedido (request):
                     precio  = int(value["precio"])
                     nombre = str(value["nombre"])
 
-
+                  
                     stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
                     if stock_existe:
                             # Verificar si la cantidad es diferente de 0
@@ -841,7 +840,7 @@ def pedido (request):
                     user_data = dict(request.session.get('carrito', {}).items())
 
 
-        
+        print('Nueva Compra')
         nuevacompra(user_data, form)
 
         carrito = Carrito(request)
@@ -863,14 +862,16 @@ def pedido (request):
 
                         # Buscar el stock existente para el producto, color y talle específicos
                         stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
-
+                    
                         # Verificar si existe stock para el producto
                         if stock_existe:
                             # Verificar si la cantidad es diferente de 0
+                            
+
                             if stock_existe.cantidad != 0:
                                 # Restar 1 a la cantidad
                                 stock_existe.cantidad -= 1
-                                
+                               
                                 # Verificar si la cantidad es menor a 0 y ajustar si es necesario
                                 if stock_existe.cantidad < 0:
                                     stock_existe.cantidad = 0
@@ -880,6 +881,7 @@ def pedido (request):
                             else:
                                 carrito = Carrito(request)
                                 carrito.limpiaritem(producto_id)
+                             
                                 return redirect('home')
                       
                          
@@ -1174,7 +1176,7 @@ def checkout(request):
 
         if request.method == 'POST':
             form = ShippingAddressForm(request.POST)
-            print('rewfq')
+          
             if form.is_valid():
                 # Procesar el formulario
                 form.save()
