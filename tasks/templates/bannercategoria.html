@@ -1,0 +1,17 @@
+{% load static %}
+
+<div class="service-section">
+    <div class="container">
+        <div class="service-carousel owl-carousel owl-theme">
+            {% for cate in cat %}
+                <div class="single-service" style="position: relative;">
+                    <div class="img-wrapper" style="position: relative;">
+                        <a href="{% url 'catproducto' cate.cat %}" style="cursor: pointer;">
+                            <img src="{% static 'img/' %}{{ cate.cat }}1.avif" alt="{{ cate.nombre }}" width="20" style="position: relative; z-index: 10;">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

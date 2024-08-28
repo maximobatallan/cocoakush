@@ -73,14 +73,15 @@
                         
 
                               <div class="single-calc">
+                                 <strong>Envio $6.500</strong>
                                  <strong>Descuento de {{ nombrecupon }}</strong>
                                  <strong>{{ descuento }}%</strong>
                               </div>
                               <div class="single-calc total">
                               
-
+                                 
                                  <strong>Total</strong>
-
+                                
                                  <strong>$ {{ total_compra }}</strong>
                               
                               
@@ -95,8 +96,14 @@
                            <div class="calculations">
                    
                               <div class="single-calc total">
-                             
-                        
+                                 {% if correo == 'false' %}
+                                 <span>Acordar el retiro</span>
+                             {% else %}
+                                 <span>Envío</span>
+                                 <span>$ 6500</span>
+                             {% endif %}
+                           </div>
+                              <div class="single-calc total">
                               <strong>Total</strong>
                               <strong>$ {{ total_compra }}</strong>
                               {% endif %}
@@ -117,7 +124,7 @@
                <form action="{% url 'datosbanco' %}" method="post">
                    {% csrf_token %}
                    <input type="hidden" name="total_compra" value="{{ total_compra }}">
-                   <button type="submit" class="cartbtn cart">Transferencia Bancaria 5% OFF adicional</button>
+                   <button type="submit" class="cartbtn cart">Transferencia Bancaria</button>
                </form>
            </div>
                               <div class="col-lg-4">

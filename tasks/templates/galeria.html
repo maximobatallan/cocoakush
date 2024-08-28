@@ -5,7 +5,7 @@
       
         {% for key, value_list in categorias_productos.items %}
         
-        <h2 class="subtitle">{{ key }}</h2>
+        <h2 class="subtitle" style="display: none;">{{ key }}</h2>
            
                  <div class="row">
                  {% for value in value_list %}
@@ -30,7 +30,16 @@
 </a>
 
                      <a href="{% url 'PD' value %}" class="cartbtn" , style="position: absolute; top: 0; right: 0;">
-                        <span style="font-size: 25px;"> ${{ producto.precio }}</span>
+                        <del style="font-size: 15px;"> ${{ producto.precio_aumentado }}</del></span>
+                        
+                     </a>
+                     <a href="{% url 'PD' value %}" class="cartbtn" , style="position: absolute; top: 0; left: 0;">
+                        <span style="font-size: 15px;"> 25%Off</span>
+                        
+                     </a>
+                     <a href="{% url 'PD' value %}" class="cartbtn" , style="position: absolute; top: 60px; right: 0;">
+                      
+                        <span style="font-size: 25px;">${{ producto.precio }}</span>
                      </a>
 
                   </div>
@@ -54,7 +63,7 @@
          {% endfor %}
        </div>
      </div>
-        
+         
         
      </div>
      

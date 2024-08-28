@@ -1,61 +1,32 @@
 {% load static%}
+
 <!--   partner section start    -->
 <div class="partner-section" style="background-color: #ffffff;">
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <div class="partner-carousel owl-carousel owl-theme border-bottom border-top-lg-0 border-top">
-               <div class="single-partner-item">
-                  <div class="outer">
-                     <div class="inner" style="position: relative;">
-                        <a href="#galeria"><img src="{% static 'img/banner1.avif' %}"  style="border: 2px solid #FBFADA;">
-                     </a>
-                    </div>
-                  </div>
-               </div>
-               <div class="single-partner-item">
-                  <div class="outer">
-                     <div class="inner" style="position: relative;">
-                        <a href="#galeria"> <img src="{% static 'img/banner2.avif'' %}" style="border: 2px solid #FBFADA;">
-                       </a>
-                    </div>
-                    
+            <div class="partner-carousel owl-carousel owl-theme border-bottom border-top-lg-0 border-top" >
+               
+               {% for cate in cat %}
 
-                    
-                  </div>
-               </div>
-               <div class="single-partner-item">
+               <div class="single-partner-item" >
                   <div class="outer">
                      <div class="inner" style="position: relative;">
-                        <a href="#galeria"><img src="{% static 'img/banner6.avif'' %}" style="border: 2px solid #FBFADA;">
+                        <a href="{% url 'catproducto' cate.cat %}">
+
+                  
+                           <img src="{% static 'img/' %}{{ cate.cat }}.avif" alt="{{ cate.cat }}" style="border: 2px solid #FBFADA;">
+
+                           
+
+                           
                        </a>
-                    </div>
+                     </div>
                   </div>
                </div>
-               <div class="single-partner-item">
-                  <div class="outer">
-                     <div class="inner" style="position: relative;">
-                        <a href="#galeria"><img src="{% static 'img/banner4.avif'' %}" style="border: 2px solid #FBFADA;">
-                        </a>
-                    </div>
-                  </div>
-               </div>
-               <div class="single-partner-item">
-                  <div class="outer">
-                     <div class="inner" style="position: relative;">
-                        <a href="#galeria"> <img src="{% static 'img/banner5.avif'' %}" style="border: 2px solid #FBFADA;">
-                         </a>
-                    </div>
-                  </div>
-               </div>
-               <div class="single-partner-item">
-                  <div class="outer">
-                     <div class="inner" style="position: relative;">
-                        <a href="#galeria"> <img src="{% static 'img/banner3.avif'' %}" style="border: 2px solid #FBFADA;">
-                         </a>
-                    </div>
-                  </div>
-               </div>
+                {% endfor %}
+               
+         
             </div>
          </div>
       </div>

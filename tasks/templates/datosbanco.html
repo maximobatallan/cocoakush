@@ -86,10 +86,6 @@
                                     <del><strong>$ {{ total_compra }}</strong></del>
                                  </div>
 
-                                 <div class="single-calc">
-                                    <strong>Adicional 5% off por transferencia</strong>
-                                    <strong>-{{ descuento }}</strong>
-                                 </div>
                                  <div class="single-calc total">
                                 
                                  
@@ -116,7 +112,7 @@
                                             <th scope="col">Imagen</th>
                                             <th scope="col">Titulo</th>
                                             <th scope="col">Cantidad</th>
-                                       
+                                            <th scope="col">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -131,7 +127,9 @@
                                             <td>
                                                 <input class="quantity" type="number" name="cantidad" value="{{ value.cantidad }}" min="1" disabled>
                                             </td>
-                                        
+                                            <td class="total">
+                                                <span>$ {{ value.acumulado }}</span>
+                                            </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

@@ -62,7 +62,7 @@
                                     <td>
                                        <input class="quantity" type="number" name="cantidad" value= {{ value.cantidad }} min="1" disabled>
                                     </td>
-                                    <td class="total"><span>$ {{ value.acumulado }}</span></td>
+                                    <td class="total"><span>${{ value.acumulado|floatformat:0 }}</span></td>
                                  </tr>
                             {% endfor %}
                             <td colspan="6">
@@ -92,22 +92,66 @@
             </div>
             <!--  Cart Table Area End  --> 
       
-
-
-
-            <div class="container">
-                <h4 class="title">Dirección de envío</h4>
-                <div class="form-element">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Ir a Pagar</button>
-                        </div>
-                    </form>
-                </div>
+<!--  checkbox envio start  --> 
+         <div class="container" style="padding-bottom: 20px;">
+<form method="get" action="/checkout/">
+    <label>
+        <input type="radio" name="correo" value="true" id="enviarCorreo">
+        Enviar por correo
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="correo" value="false" id="retiroPuntosEncuentro" checked>
+        Retiro por puntos de encuentro
+    </label>
+    <br>
+    <button type="submit" class="cartbtn cart" id="checkoutButton">Continuar al Checkout</button>
+</form>
+</div>
+<!-- Div que se mostrará si se selecciona "Enviar por correo" -->
+<div id="correo" class="container" style="display: none;">
+    <h4 class="title">Dirección de envío</h4>
+    <div class="form-element">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Ir a Pagar</button>
             </div>
-            
+        </form>
+    </div>
+</div>
+
+<script>
+    // Función para mostrar u ocultar el div y el botón basado en el radio button seleccionado
+    function toggleCorreoDivAndButton() {
+        var enviarCorreo = document.getElementById('enviarCorreo');
+        var correoDiv = document.getElementById('correo');
+        var checkoutButton = document.getElementById('checkoutButton');
+        
+        if (enviarCorreo.checked) {
+            correoDiv.style.display = 'block';  // Mostrar el div de envío por correo
+            checkoutButton.style.display = 'none';  // Ocultar el botón "Continuar al checkout"
+        } else {
+            correoDiv.style.display = 'none';  // Ocultar el div de envío por correo
+            checkoutButton.style.display = 'block';  // Mostrar el botón "Continuar al checkout"
+        }
+    }
+
+    // Asignar la función a los eventos 'change' de los radio buttons
+    document.getElementById('enviarCorreo').addEventListener('change', toggleCorreoDivAndButton);
+    document.getElementById('retiroPuntosEncuentro').addEventListener('change', toggleCorreoDivAndButton);
+
+    // Llamar a la función al cargar la página para establecer el estado inicial
+    toggleCorreoDivAndButton();
+</script>
+
+
+<!--  checkbox envio end  --> 
+
+
+
+
 
 
       

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-{% load static%}
+{% load static %}
+
 {% block head %}
     {{ block.super }}
     
     <!-- easyzoom css -->
     <link rel="stylesheet" href="{% static 'css/easyzoom.css' %}">
-      <!-- slicknav css -->
+    <!-- slicknav css -->
     <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
     <!-- jquery ui css -->
     <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
@@ -16,115 +17,141 @@
     <!-- responsive css -->
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    
-    {% endblock %}
-       
+{% endblock %}
 
-
-        {% block content %}
+{% block content %}
 <!--  breadcrumb start  -->
 
 <!--  breadcrumb end  -->
 
-
-      <!--   Products Area Start    -->
-      <div class="products-area">
-        <div class="container">
-           <div class="row">
-              <div class="col-lg-3">
-                 <div class="filters">
-                    
+<!-- Products Area Start -->
+<div class="products-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="filters">
                     <div class="filter category">
-                       <div class="filter-header">
-                          <h5>Categoria</h5>
-                       </div>
-                       <div class="filter-body">
-
-                          <ul>
-                            {% for cate in cat %}
-                             <li><a href="{% url 'catproducto' cate.cat %}">{{ cate.cat }}</a></li>
-                             {% endfor %} 
-                          </ul>
-                       </div>
+                        <div class="filter-header">
+                            <h5>Categoria</h5>
+                        </div>
+                        <div class="filter-body">
+                            <ul>
+                                {% for cate in cat %}
+                                    <li><a href="{% url 'catproducto' cate.cat %}">{{ cate.cat }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
-                    
-                 </div>
-              </div>
-              <div class="col-lg-9">
-                 
-                 <div class="products">
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="products">
                     <div class="row no-gutters">
+                 
                         {% for producto in productos %}
-                       <div class="col-xl-4 col-md-6">
-                          <div class="single-product">
-                             <div class="thumbnail">
-                                <img src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen }}" alt="{{ producto.nombre }}" width="20">
-                                <div class="thumb-overlay">
-                                   <div class="circle-container">
-                                      <a class="circle" href="{% url 'PD' producto.id %}">
-                                      <i class="fas fa-heart"></i>
-                                      <span class="tooltiptext">Detalles</span>
-                                      </a>
-                                      
-                                   </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="single-product">
+                                    <div class="thumbnail">
+                                        <img src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen }}" alt="{{ producto.nombre }}" width="20">
+                                        <div class="thumb-overlay">
+                                            <div class="circle-container">
+                                                <a class="circle" href="{% url 'PD' producto.id %}">
+                                                    <i class="fas fa-heart"></i>
+                                                    <span class="tooltiptext">Detalles</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <h4 class="title" style="padding-bottom: 8px;"><a href="{% url 'PD' producto.id %}">{{ producto.nombre }}</a></h4>
+                                        <div class="price">
+                                            <span style="font-size: 25px;">${{ producto.precio }}</span>
+                                            <del style="font-size: 25px;">${{ producto.precio_aumentado }}</del>
+                                        </div>
+                                        <div class="rate">
+                                            <div class="rating" style="width:100%"></div>
+                                        </div>
+
+                                        <!-- Mostrar checkbox para cada talle disponible -->
+                                        <div class="talles-disponibles">
+                                 
+                                          <form action="{% url 'Add' producto.id %}" method="post">
+                                             {% csrf_token %}
+                                             <div class="talle-selection" data-producto-id="{{ producto.id }}">
+                                                 {% for talle, cantidad in talles_disponibles.items %}
+                                                     {% if talle == producto.id %}
+                                                         {% for talles, cantidad in cantidad.items %}
+                                                             <input type="checkbox" id="talle-{{ talles }}-{{ talles }}" name="talle" value="{{ talles }}">
+                                                             <label for="talle-{{ talles }}-{{ talles }}">{{ talles|upper }}</label>
+                                                         {% endfor %}
+                                                     {% endif %}
+                                                 {% endfor %}
+                                             </div>
+                                             <button class="addtocart btn-block">
+                                                 Agregar a Carrito
+                                             </button>
+                                         </form>
+                                         
+                                         <script>
+                                             document.addEventListener('DOMContentLoaded', function() {
+                                                 // Selecciona todos los grupos de checkboxes
+                                                 var groups = document.querySelectorAll('.talle-selection');
+                                         
+                                                 groups.forEach(function(group) {
+                                                     // Selecciona todos los checkboxes dentro del grupo
+                                                     var checkboxes = group.querySelectorAll('input[type="checkbox"]');
+                                         
+                                                     // Añade un listener para cada checkbox en el grupo
+                                                     checkboxes.forEach(function(checkbox) {
+                                                         checkbox.addEventListener('change', function() {
+                                                             if (this.checked) {
+                                                                 // Desmarca todos los otros checkboxes en el mismo grupo
+                                                                 checkboxes.forEach(function(box) {
+                                                                     if (box !== checkbox) {
+                                                                         box.checked = false;
+                                                                     }
+                                                                 });
+                                                             }
+                                                         });
+                                                     });
+                                         
+                                                     // Marca el primer checkbox del grupo al cargar la página
+                                                     var firstCheckbox = checkboxes[0];
+                                                     if (firstCheckbox) {
+                                                         firstCheckbox.checked = true;
+                                                     }
+                                                 });
+                                             });
+                                         </script>
+                                         
+                                        </div>
+                                    </div>
                                 </div>
-                             </div>
-                             <div class="content">
-                                <h4 class="title"><a href="product-details.html">{{ producto.nombre }}</a></h4>
-                                <div class="price">
-                                   <span>$ {{ producto.precio }}</span>
-                                   <del>{{ producto.precio }}</del>
-                                </div>
-                                <div class="rate">
-                                   <div class="rating" style="width:100%"></div>
-                                </div>
-                                <form action="{% url 'Add' producto.id %}" method="post" >
-                                {% csrf_token %}   
-                                <button class="addtocart btn-block">
-                                Agregar a Carrito
-                                </button>
-                                </form>
-                             </div>
-
-
-                             
-
-
-                             
-                          </div> 
-                       </div>{% endfor %} 
+                            </div>
+                        {% endfor %}
                     </div>
-              </div> 
-           </div>
+                </div>
+            </div>
         </div>
-     </div>
-     <!--   Products Area End    -->
-     
-   </div>
+    </div>
+</div>
+<!-- Products Area End -->
 
-         {% include "footer.html" %}
-      <script src="{% static 'js/popper.min.js' %}"></script>
-      <!-- bootstrap js -->
-      <script src="{% static 'js/bootstrap.min.js' %}"></script>
-      <!-- owl carousel js -->
-      <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-      <!-- isotope js -->
-      <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
-      <!-- easyzoom js -->
-      
-      <script src="{% static 'js/lightbox.min.js' %}"></script>
-    
-     
-      <!-- slicknav js -->
-      <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
-  
-      <!-- wow js -->
-      
-      <script src="{% static 'js/wow.min.js' %}"></script>
-      <!-- main js -->
-      <script src="{% static 'js/main.js' %}"></script>
-   </body>
-      {% endblock %}
-        
+{% include "footer.html" %}
 
-</html>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<!-- bootstrap js -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- owl carousel js -->
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<!-- isotope js -->
+<script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+<!-- easyzoom js -->
+<script src="{% static 'js/lightbox.min.js' %}"></script>
+<!-- slicknav js -->
+<script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+<!-- wow js -->
+<script src="{% static 'js/wow.min.js' %}"></script>
+<!-- main js -->
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
