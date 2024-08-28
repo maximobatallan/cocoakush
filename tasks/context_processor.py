@@ -11,6 +11,8 @@ def total_carrito(request):
             
             total += int(value["acumulado"])
             cantidad += int(value["cantidad"])
-         
+
+
+  
                 
     return {"total_carrito": total,"cantidad": cantidad, "contar": contar}

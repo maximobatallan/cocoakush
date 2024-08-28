@@ -296,7 +296,7 @@ def detalleproducto(request, producto_id):
   
 
     cantidad_total = Stock.objects.filter(producto_id=producto_id, color=color_seleccionado,talle=talle_seleccionado).aggregate(total_cantidad=Sum('cantidad'))['total_cantidad']
-    print(cantidad_total)
+ 
 
     colores = colorennombre.lower()
 
@@ -380,7 +380,7 @@ def cart(request):
             preference_data["items"].append(item)
         
             total_compra = int(subtotal)
-        
+            print(total_compra)
 
 
         current_time = int(time.time())
@@ -509,12 +509,12 @@ def datosbanco(request):
 
         total_compra = request.POST.get('total_compra')
         total_compra1 = float(total_compra)
-        total_compra1 = total_compra1*0.95
+       
         total_compra1 = round(total_compra1)
         total_compra = float(total_compra)  # Convertir a float
         total_compra = round(total_compra, 2)  # Redondear a 2 decimales
 
-        descuento = int(total_compra) - total_compra1
+        descuento = int(total_compra) 
 
 
 
@@ -524,9 +524,32 @@ def datosbanco(request):
 
 
 def catproducto(request, catproducto):
-    productos = Producto.objects.filter(cat = catproducto)
+    productos = Producto.objects.filter(cat=catproducto).order_by('id')
     cat = Categoria.objects.all()
-    return render(request, "categoriaproducto.html", {'productos': productos, 'cat': cat})
+
+
+
+
+    # Diccionario para almacenar los talles disponibles para cada producto
+    talles_disponibles = {}
+
+    for producto in productos:
+        # Obtener los talles disponibles para el producto actual
+        talles_con_stock = Stock.objects.filter(producto=producto, cantidad__gt=0).values('talle', 'cantidad').order_by('id')
+        
+        # Crear un diccionario de talles para el producto
+        talles_dict = {talle['talle']: talle['cantidad'] for talle in talles_con_stock}
+        talles_disponibles[producto.id] = talles_dict
+    
+
+
+
+    return render(request, "categoriaproducto.html", {
+        'productos': productos,
+        'cat': cat,
+        'talles_disponibles': talles_disponibles
+    })
+
 
 
 def send_user_data_email(user_data):
@@ -739,22 +762,35 @@ def nuevacompra(user_data, datos_envio):
         # Imprimir detalles del producto
 
         # Construcción del mensaje
-        message = (
+        if nombre is None:
+             message = (
             f"Hola {nombre} {apellido},\n\n"
             f"¡Gracias por tu compra en Cocoa Kush!\n\n"
             f"Detalles de envío:\n"
-            f"Dirección: {direccion} {numero}\n"
-            f"Ciudad: {ciudad}\n"
-            f"Estado: {estado}\n"
-            f"Código Postal: {codigo_postal}\n"
-            f"País: {pais}\n"
-            f"Teléfono: {telefono}\n\n"
+            f"Acordar envío por Whatsapp: 15-2393-3816 "
             f"Detalles de los productos:\n"
             f"{detalles_producto}\n\n"
             f"Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.\n\n"
             f"Saludos cordiales,\n"
             f"Equipo de Cocoa Kush"
         )
+        else:
+            message = (
+                f"Hola {nombre} {apellido},\n\n"
+                f"¡Gracias por tu compra en Cocoa Kush!\n\n"
+                f"Detalles de envío:\n"
+                f"Dirección: {direccion} {numero}\n"
+                f"Ciudad: {ciudad}\n"
+                f"Estado: {estado}\n"
+                f"Código Postal: {codigo_postal}\n"
+                f"País: {pais}\n"
+                f"Teléfono: {telefono}\n\n"
+                f"Detalles de los productos:\n"
+                f"{detalles_producto}\n\n"
+                f"Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.\n\n"
+                f"Saludos cordiales,\n"
+                f"Equipo de Cocoa Kush"
+            )
 
         # Envío del correo
         subject = 'Confirmación de Compra, Cocoa Kush'
@@ -781,6 +817,7 @@ def nuevacompra(user_data, datos_envio):
     
 
 def pedido (request):
+    cat = Categoria.objects.all()
     form = request.session.get('form_data', {})
     try:
         productos_para_comprar = []
@@ -847,7 +884,7 @@ def pedido (request):
         carrito = Carrito(request)
         carrito.limpiar()
    
-        return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
+        return render(request, "pedido.html", {'producto_id': producto_id,'cat': cat, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
     except:
         productos_para_comprar = []
       
@@ -868,21 +905,21 @@ def pedido (request):
                         if stock_existe:
                             # Verificar si la cantidad es diferente de 0
                             
-                            print('111')
+                       
                             if stock_existe.cantidad != 0:
                                 # Restar 1 a la cantidad
                                 stock_existe.cantidad -= 1
-                                print('222')
+                               
                                 # Verificar si la cantidad es menor a 0 y ajustar si es necesario
                                 if stock_existe.cantidad < 0:
                                     stock_existe.cantidad = 0
-                                print('333')
+                               
                                 # Guardar los cambios en la base de datos
                                 stock_existe.save()
                             else:
                                 carrito = Carrito(request)
                                 carrito.limpiaritem(producto_id)
-                                print('estamos en home')
+                              
                                 return redirect('home')
                       
                          
@@ -915,7 +952,9 @@ def pedido (request):
             carrito = Carrito(request)
             carrito.limpiar()
     
-            return render(request, "pedido.html", {'producto_id': producto_id, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
+            return render(request, "pedido.html", {'producto_id': producto_id,'cat': cat, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
+
+           
 
            
         
@@ -1044,6 +1083,28 @@ def cocoagame(request):
 
     return render(request, "cocoagame.html")
 
+
+def memory(request):
+
+    return render(request, "memory.html")
+
+
+def piedra(request):
+
+    return render(request, "piedra.html")
+
+def catch(request):
+
+    return render(request, "catch.html")
+
+def flappy(request):
+
+    return render(request, "flappy.html")
+
+def runner(request):
+
+    return render(request, "runner.html")
+
 def terminosycondiciones(request):
 
     return render(request, "terminosycondiciones.html")
@@ -1071,7 +1132,7 @@ def checkout(request):
     cupon_encontrado = False
     descuento= 1
     nombre_cupon = 1
-
+    correo = 1
 
 
     
@@ -1105,8 +1166,20 @@ def checkout(request):
             total_aum += int(precioanterior)
             subtotal += int(value["precio"]*value["cantidad"] )
             
-        
+     
         if cupon_encontrado == True:
+            
+
+            try:
+                # Intentar obtener el valor del parámetro 'correo'
+                correo = request.GET.get('correo')
+
+                # Verificar si el valor de 'correo' es 'false'
+                total_compra = subtotal - (subtotal * descuento / 100)
+            
+            except:
+                total_compra = subtotal - (subtotal * descuento / 100) + 6500
+                
 
             item = {
                         "title": value["nombre"],
@@ -1117,10 +1190,24 @@ def checkout(request):
  
             preference_data["items"].append(item)
         
-        
-            total_compra = subtotal-(subtotal*descuento/100)
+            
+            
          
         else:
+            correo = request.GET.get('correo')
+            if correo == 'false':
+
+                # Intentar obtener el valor del parámetro 'correo'
+                
+              
+                # Verificar si el valor de 'correo' es 'false'
+                subtotal = subtotal
+                
+            
+            else:
+                subtotal = subtotal + 6500
+            
+
             item = {
                         "title": value["nombre"],
                         "quantity": 1,
@@ -1177,13 +1264,13 @@ def checkout(request):
 
         if request.method == 'POST':
             form = ShippingAddressForm(request.POST)
-            print('rewfq')
+           
             if form.is_valid():
                 # Procesar el formulario
                 form.save()
                 
                 # Redirigir o mostrar un mensaje de éxito
-                return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form} )
+                return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form,'correo': correo,} )
         else:
             
       
@@ -1192,7 +1279,7 @@ def checkout(request):
            
       
         
-        return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon} )
+        return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'correo': correo,} )
 
     else: 
         

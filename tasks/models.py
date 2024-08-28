@@ -26,6 +26,7 @@ class Producto(models.Model):
     cat = models.CharField(max_length=64)
     descripcion = models.TextField(blank=True)
     precio = models.IntegerField()
+    precio_aumentado = models.IntegerField()
     imagen = models.ImageField(upload_to='products/', null=True, blank=True)
     imagen1 = models.ImageField(upload_to='products/', null=True, blank=True)
     imagen2 = models.ImageField(upload_to='products/', null=True, blank=True)
