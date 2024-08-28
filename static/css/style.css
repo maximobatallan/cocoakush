@@ -87,6 +87,202 @@
 ** Checkout Page CSS
 ---------------------------
 */
+
+
+#moves {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#game-result {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 20px;
+    
+}
+
+.visible {
+    visibility: visible;
+}
+
+.hidden {
+    display: none;
+}
+
+.game-container {
+    width: 80%;
+    max-width: 800px;
+}
+
+.memory-game {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.memory-card {
+    width: calc(25% - 10px);
+    height: 150px;
+    margin-bottom: 10px;
+    position: relative;
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.memory-card:active {
+    transform: scale(0.97);
+    transition: transform 0.2s;
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.memory-card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.front-face {
+    transform: rotateY(180deg);
+}
+
+
+#gameCanvas {
+    border: 2px solid #000;
+    background-color: #70c5ce;
+}
+
+.game-container1 {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.choice {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#result {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+
+
+#game-area {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    border: 2px solid #000;
+    background-color: #d0ffd0;
+    overflow: hidden;
+}
+
+
+
+
+#cogollo {
+    width: 50px;
+    height: 50px;
+    background-image: url('../img/joven.avif');
+    background-size: cover;
+    position: absolute;
+    cursor: pointer;
+    display: none;
+}
+
+#game-over {
+    font-size: 24px;
+    color: red;
+    margin-top: 20px;
+}
+
+
+#game-container2 {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#runner {
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    width: 50px;
+    height: 50px;
+    background-color: #ff6347; /* Tomato color for the runner */
+}
+
+.obstacle {
+    position: absolute;
+    bottom: 20px;
+    right: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: #2e8b57; /* Sea green for the obstacle */
+    transition: right 0.5s linear;
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #whatsapp-btn {
         position: fixed;
         bottom: 30px;
@@ -287,7 +483,7 @@ h2.subtitle {
     
     position: relative;
     text-transform: uppercase;
-    margin-bottom: 90px;
+    margin-bottom: 20px;
 }
 
 h2.subtitle::after {
@@ -334,6 +530,38 @@ h2.subtitle::after {
     -webkit-appearance: none;
     appearance: none;
 }
+
+.form-element button[type="submit"],
+.form-element input[type="submit"] {
+    border: none;
+    position: relative;
+    background-color: #F7700D;
+    color: #000000;
+    padding: 12px 99px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #F7700D;
+    font-size: 14px;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+}
+
+.styled-button {
+    border: none;
+    position: relative;
+    background-color: #F7700D;
+    color: #000000;
+    padding: 12px 99px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #F7700D;
+    font-size: 14px;
+    transition: .5s;
+}
+
 
 .form-element button[type="submit"],
 .form-element input[type="submit"] {
@@ -1046,6 +1274,7 @@ h2.subtitle::after {
     display: block;
     padding: 12px 32px;
     color: #000;
+    font-size: 15px;
     position: relative;
     overflow: hidden;
     -webkit-transition: 1s;
@@ -1389,8 +1618,21 @@ ul.search-cart-area {
 ---------------------------*/
 
 .hero-bg {
-    background-image: url('../img/home_1/hero_bg.jpg');
+    
+    background-image: url('../img/web.avif');
     background-size: cover;
+    height: 520px; 
+}
+
+@media (max-width: 767px) {
+    .hero-bg {
+       
+        height: 412px; /* Establece la altura del contenedor */
+        background-image: url('../img/cel.avif');
+        background-size: cover; /* Fija el tamaño de la imagen de fondo a 412x412 píxeles */
+        background-position: center; /* Centra la imagen de fondo */
+        background-repeat: no-repeat; /* Evita que la imagen se repita */
+    }
 }
 
 .hero-area {
@@ -1406,8 +1648,8 @@ ul.search-cart-area {
 .hero-txt {
     position: relative;
     z-index: 2;
-    background: #ffffffa6;
-    padding: 4%;
+  
+    padding-top: 230px;
 }
 
 
@@ -1527,7 +1769,7 @@ ul.search-cart-area {
 ---------------------------*/
 
 .service-section {
-    padding: 111px 0px 116px;
+    padding: 20px 0px 20px;
     position: relative;
 }
 
@@ -1604,6 +1846,9 @@ ul.search-cart-area {
     left: 0px;
     top: 0px;
 }
+
+
+
 
 .single-service p.service-para {
     margin-bottom: 13px;
@@ -2143,7 +2388,7 @@ ul.search-cart-area {
 }
 
 .cta-bg {
-    background-image: url('../img/banner!.PNG');
+    background-image: url('../img/banner!.avif');
     background-size: cover;
 }
 
@@ -2384,18 +2629,23 @@ footer .bottom-footer {
 
 .hero-bg-2 {
     
-    background-image: url('../img/Fondo1.avif');
+    background-image: url('../img/web1.avif');
     background-size: cover;
+    height: 520px;
 }
 
 @media (max-width: 767px) {
     .hero-bg-2 {
-        background-image: url('../img/fondomobile.png');
-        background-size: cover; /* Ajusta el tamaño de la imagen de fondo para cubrir el contenedor */
+        /* Establece el ancho del contenedor */
+        height: 412px; 
+        background-image: url('../img/cel1.avif');
+        background-size: cover; /* Fija el tamaño de la imagen de fondo a 412x412 píxeles */
         background-position: center; /* Centra la imagen de fondo */
-     
+        background-repeat: no-repeat; /* Evita que la imagen se repita */
     }
 }
+
+
 
 
 .home-2.hero-area {
@@ -2619,8 +2869,22 @@ footer .bottom-footer {
 }
 
 .hero-bg-3 {
-    background-image: url('../img/banner-AXD3.png');
+    
+    height: 520px; 
+    background-image: url('../img/web2.avif');
     background-size: cover;
+    
+}
+
+@media (max-width: 767px) {
+    .hero-bg-3 {
+    
+        height: 412px; 
+        background-image: url('../img/cel2.avif');
+        background-size: cover; /* Fija el tamaño de la imagen de fondo a 412x412 píxeles */
+        background-position: center; /* Centra la imagen de fondo */
+        background-repeat: no-repeat; /* Evita que la imagen se repita */
+    }
 }
 
 .home-3.hero-area .hero-overlay {
@@ -4065,7 +4329,7 @@ ul.overview-points li::before {
 ---------------------------*/
 
 .gallery-section {
-    padding-top: 120px;
+    padding-top: 10px;
 }
 
 .single-pic img {
@@ -4698,13 +4962,14 @@ div#map {
 
 
 .circle .tooltiptext {
-    visibility: hidden;
+   
     width: 120px;
-    background-color: black;
+    background-color: #F7700D;
     color: #000;
     text-align: center;
     border-radius: 6px;
     padding: 0px 0;
+    font-size: 25px;
     position: absolute;
     z-index: 1;
     bottom: 150%;
@@ -5340,7 +5605,7 @@ div#map {
 .product-details .price span {
     display: inline-block;
     margin-right: 5px;
-    color: #F7700D;
+    color: #000000;
 }
 
 .product-details-form h6.label {
@@ -5357,9 +5622,7 @@ div#map {
     text-transform: uppercase;
 }
 
-.product-details .desc p {
-    margin: 15px 0px 25px;
-}
+
 
 .topbar-filters {
     border: 1px solid #f1f1f1;
@@ -5416,6 +5679,7 @@ div#map {
 }
 
 .product-details .product-preview img.single-image {
+    z-index: 1;
     width: 100%;
 }
 
