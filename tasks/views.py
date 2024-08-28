@@ -764,10 +764,10 @@ def nuevacompra(user_data, datos_envio):
         # Construcción del mensaje
         if nombre is None:
              message = (
-            f"Hola {nombre} {apellido},\n\n"
+            f"Hola,\n\n"
             f"¡Gracias por tu compra en Cocoa Kush!\n\n"
             f"Detalles de envío:\n"
-            f"Acordar envío por Whatsapp: 15-2393-3816 "
+            f"Acordar envío por Whatsapp: 15-2393-3816\n\n"
             f"Detalles de los productos:\n"
             f"{detalles_producto}\n\n"
             f"Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.\n\n"
