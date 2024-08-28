@@ -60,6 +60,11 @@ urlpatterns = [
     path('terminosycondiciones/', views.terminosycondiciones, name='terminosycondiciones'),
     path('politicadeprivacidad/', views.politicadeprivacidad, name='politicadeprivacidad'),
     path('checkout/', views.checkout, name='checkout'),
+    path('memory/', views.memory, name='memory'),
+    path('piedra/', views.piedra, name='piedra'),
+    path('catch/', views.catch, name='catch'),
+    path('flappy/', views.flappy, name='flappy'),
+    path('runner/', views.runner, name='runner'),
     ]
 
 
