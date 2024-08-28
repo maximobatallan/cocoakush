@@ -841,7 +841,6 @@ def pedido (request):
                     precio  = int(value["precio"])
                     nombre = str(value["nombre"])
 
-                    print(stock_existe.cantidad, nombre)
                     stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
                     if stock_existe:
                             # Verificar si la cantidad es diferente de 0
@@ -900,7 +899,7 @@ def pedido (request):
 
                         # Buscar el stock existente para el producto, color y talle específicos
                         stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
-                        print(stock_existe.cantidad, nombre)
+                     
                         # Verificar si existe stock para el producto
                         if stock_existe:
                             # Verificar si la cantidad es diferente de 0
