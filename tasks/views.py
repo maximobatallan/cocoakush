@@ -818,13 +818,18 @@ def nuevacompra(user_data, datos_envio):
 
 def pedido (request):
     cat = Categoria.objects.all()
+
     form = request.session.get('form_data', {})
-    try:
+    stock_existe = Stock.objects.filter(producto_id='1', color='blanco', talle='L').first()
+    query_params = request.GET.get('preference_id')
+
+    if query_params != None:
         productos_para_comprar = []
         query_params = request.GET    # Comprobamos si el parámetro payment_id está presente en los query params
         payment_id = query_params.get('preference_id')
         params_list = []
-
+        stock_existe = Stock.objects.filter(producto_id='1', color='blanco', talle='L').first()
+ 
     
         for key, value in query_params.items():
             params_list.append({key: value})
@@ -841,13 +846,14 @@ def pedido (request):
                     precio  = int(value["precio"])
                     nombre = str(value["nombre"])
 
+           
                     stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
                     if stock_existe:
                             # Verificar si la cantidad es diferente de 0
                             if stock_existe.cantidad != 0:
                                 # Restar 1 a la cantidad
                                 stock_existe.cantidad -= 1
-                                
+                               
                                 # Verificar si la cantidad es menor a 0 y ajustar si es necesario
                                 if stock_existe.cantidad < 0:
                                     stock_existe.cantidad = 0
@@ -872,21 +878,21 @@ def pedido (request):
                     compra1.save()
 
 
-
+                    
                     
                     user_data = dict(request.session.get('carrito', {}).items())
+                    
 
 
-        
         nuevacompra(user_data, form)
 
         carrito = Carrito(request)
         carrito.limpiar()
    
         return render(request, "pedido.html", {'producto_id': producto_id,'cat': cat, 'cantidad': cantidad, 'productos_para_comprar': productos_para_comprar } )
-    except:
+    else:
         productos_para_comprar = []
-      
+        
         if request.method == 'GET':
             if "carrito" in request.session and request.session["carrito"]:
                     for key, value in request.session["carrito"].items():
@@ -898,13 +904,13 @@ def pedido (request):
                         nombre = str(value["nombre"])
 
                         # Buscar el stock existente para el producto, color y talle específicos
-                        stock_existe = Stock.objects.filter(producto_id=str(value["producto_id"]), color=value["color"], talle=value["talle"]).first()
-                     
+                        stock_existe = Stock.objects.filter(producto_id=str(producto_id), color=value["color"], talle=value["talle"]).first()
+                    
                         # Verificar si existe stock para el producto
                         if stock_existe:
                             # Verificar si la cantidad es diferente de 0
                             
-                       
+                          
                             if stock_existe.cantidad != 0:
                                 # Restar 1 a la cantidad
                                 stock_existe.cantidad -= 1
@@ -918,10 +924,9 @@ def pedido (request):
                             else:
                                 carrito = Carrito(request)
                                 carrito.limpiaritem(producto_id)
-                              
+                               
                                 return redirect('home')
                       
-                         
                     
                         producto = {
                         'cantidad': cantidad,
