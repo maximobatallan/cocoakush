@@ -506,7 +506,8 @@ def datosbanco(request):
         
         current_time = int(time.time())            
  
-
+        telefono = request.POST.get('telefono')
+        email = request.POST.get('email')
         total_compra = request.POST.get('total_compra')
         total_compra1 = float(total_compra)
        
@@ -518,7 +519,7 @@ def datosbanco(request):
 
 
 
-        return render(request, "datosbanco.html", {'cbu': cbu, 'titular': titular,'cat': cat,'alias': alias,'total_compra': total_compra,'total_compra1': total_compra1,'descuento': descuento,})
+        return render(request, "datosbanco.html", {'cbu': cbu, 'titular': titular,'cat': cat,'alias': alias,'total_compra': total_compra,'total_compra1': total_compra1,'descuento': descuento,'telefono': telefono,'email': email,})
     else:
         return redirect("gallery")
 
@@ -767,6 +768,8 @@ def nuevacompra(user_data, datos_envio):
             f"Hola,\n\n"
             f"¡Gracias por tu compra en Cocoa Kush!\n\n"
             f"Detalles de envío:\n"
+            f"Telefono:{telefono}\n"
+            f"Email:{email}\n"
             f"Acordar envío por Whatsapp: 15-2393-3816\n\n"
             f"Detalles de los productos:\n"
             f"{detalles_producto}\n\n"
@@ -818,8 +821,11 @@ def nuevacompra(user_data, datos_envio):
 
 def pedido (request):
     cat = Categoria.objects.all()
+    email = request.POST.get('email') 
+    telefono = request.POST.get('telefono')
 
-    form = request.session.get('form_data', {})
+    form = request.session.get('form_data', {'email': email, 'telefono': telefono})
+    
     stock_existe = Stock.objects.filter(producto_id='1', color='blanco', talle='L').first()
     query_params = request.GET.get('preference_id')
 
@@ -893,7 +899,7 @@ def pedido (request):
     else:
         productos_para_comprar = []
         
-        if request.method == 'GET':
+        if request.method == 'POST':
             if "carrito" in request.session and request.session["carrito"]:
                     for key, value in request.session["carrito"].items():
                         
@@ -949,8 +955,7 @@ def pedido (request):
 
 
 
-            
-            
+        
             nuevacompra(user_data, form)
       
             carrito = Carrito(request)
@@ -1138,7 +1143,6 @@ def checkout(request):
     nombre_cupon = 1
     correo = 1
 
-
     
     
     if request.method == 'POST':
@@ -1176,11 +1180,12 @@ def checkout(request):
 
             try:
                 # Intentar obtener el valor del parámetro 'correo'
-                correo = request.GET.get('correo')
+                correo = request.POST.get('correo')
 
                 # Verificar si el valor de 'correo' es 'false'
                 total_compra = subtotal - (subtotal * descuento / 100)
-            
+                
+
             except:
                 total_compra = subtotal - (subtotal * descuento / 100) + 6500
                 
@@ -1198,7 +1203,8 @@ def checkout(request):
             
          
         else:
-            correo = request.GET.get('correo')
+            correo = request.POST.get('correo')
+            
             if correo == 'false':
 
                 # Intentar obtener el valor del parámetro 'correo'
@@ -1206,8 +1212,8 @@ def checkout(request):
               
                 # Verificar si el valor de 'correo' es 'false'
                 subtotal = subtotal
-                
-            
+               
+
             else:
                 subtotal = subtotal + 6500
             
@@ -1265,24 +1271,27 @@ def checkout(request):
         
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
-
+        
         if request.method == 'POST':
+          
             form = ShippingAddressForm(request.POST)
-           
+        
             if form.is_valid():
                 # Procesar el formulario
                 form.save()
+            else:
                 
-                # Redirigir o mostrar un mensaje de éxito
-                return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form,'correo': correo,} )
+                email = request.POST.get('email') 
+                telefono = request.POST.get('telefono')
+                return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'form': form,'correo': correo,'telefono': telefono,'email': email,} )
         else:
-            
+           
       
             form = request.session.get('form_data', {})
 
-           
-      
-        
+          
+
+       
         return render(request, "checkout.html", {'preference_id': preference['id'],'cat': cat, 'precioanterior': precioanterior,'total_compra': total_compra, 'desc': desc, 'subtotal': subtotal,'desc': desc, 'total_aum': total_aum, 'cupon_encontrado': cupon_encontrado, 'cupon_no_encontrado': cupon_no_encontrado, 'descuento': descuento, 'nombrecupon': nombre_cupon, 'correo': correo,} )
 
     else: 
