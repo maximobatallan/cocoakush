@@ -97,6 +97,7 @@
                    
                               <div class="single-calc total">
                                  {% if correo == 'false' %}
+                                 
                                  <span>Acordar el retiro</span>
                              {% else %}
                                  <span>Envío</span>
@@ -123,6 +124,9 @@
             <div class="col-lg-8 mt-4">
                <form action="{% url 'datosbanco' %}" method="post">
                    {% csrf_token %}
+                   
+                   <input type="hidden" name="email" value="{{ email }}">
+                   <input type="hidden" name="telefono" value="{{ telefono }}">
                    <input type="hidden" name="total_compra" value="{{ total_compra }}">
                    <button type="submit" class="cartbtn cart">Transferencia Bancaria</button>
                </form>

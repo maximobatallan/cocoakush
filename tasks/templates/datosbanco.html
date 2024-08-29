@@ -54,8 +54,10 @@
                         <div class="card-body" style="padding-top: 5px;">
                            {% if cupon_encontrado %}
                            <div class="calculations">
-
-                            
+                              <div class="single-calc">
+                                 <strong>Subtotal</strong>
+                                 <strong>  <del>$ {{ subtotal }}</del></strong>
+                              </div>
                            
    
                                  <div class="single-calc">
@@ -79,11 +81,7 @@
                               {% else %}
    
                               <div class="calculations">
-                                 <div class="single-calc">
-                                    <strong>Subtotal</strong>
-                                    <del><strong>$ {{ total_compra }}</strong></del>
-                                 </div>
-
+                             
                                  <div class="single-calc total">
                                 
                                  
@@ -94,7 +92,18 @@
                     </div>
                 </div>
             </div>
-            <a class="cartbtn cart" href="{% url 'pedido' %}">Confirmar pago realizado</a>
+          
+            <form method="post" action="{% url 'pedido' %}">
+                {% csrf_token %}
+                
+                <!-- Campos ocultos para enviar email y teléfono -->
+                 
+                <input type="hidden" name="email" value="{{ email }}">
+                <input type="hidden" name="telefono" value="{{ telefono }}">
+                
+                <!-- Botón para confirmar el pago -->
+                <button type="submit" class="cartbtn cart">Confirmar pago realizado</button>
+            </form>
 
             <!-- Account Details Table Area End -->
                          <!-- Cart Table Start -->

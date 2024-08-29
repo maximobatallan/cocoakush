@@ -91,23 +91,38 @@
                </div>
             </div>
             <!--  Cart Table Area End  --> 
-      
-<!--  checkbox envio start  --> 
-         <div class="container" style="padding-bottom: 20px;">
-<form method="get" action="/checkout/">
-    <label>
-        <input type="radio" name="correo" value="true" id="enviarCorreo">
-        Enviar por correo
-    </label>
-    <br>
-    <label>
-        <input type="radio" name="correo" value="false" id="retiroPuntosEncuentro" checked>
-        Retiro por puntos de encuentro
-    </label>
-    <br>
-    <button type="submit" class="cartbtn cart" id="checkoutButton">Continuar al Checkout</button>
-</form>
+
+            
+            <!-- Checkbox envío start -->
+<div class="container" style="padding-bottom: 20px;">
+    <!-- Cambiar método a POST -->
+    <form method="post" action="/checkout/" id="checkoutForm">
+        {% csrf_token %}
+        <label>
+            <input type="radio" name="correo" value="true" id="enviarCorreo">
+            Enviar por correo
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="correo" value="false" id="retiroPuntosEncuentro" checked>
+            Retiro por puntos de encuentro
+        </label>
+        <br>
+
+        <!-- Campos de correo electrónico y teléfono inicialmente ocultos -->
+        <div id="contactInputs" style="display: block;">
+            <label for="email">Email de contacto:</label>
+            <input type="email" name="email" id="email" placeholder="Ingrese su email" required>
+            <br>
+            <label for="telefono">Teléfono de contacto:</label>
+            <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su teléfono" required>
+            <br>
+        </div>
+
+        <button type="submit" class="cartbtn cart" id="checkoutButton">Continuar al Checkout</button>
+    </form>
 </div>
+
 <!-- Div que se mostrará si se selecciona "Enviar por correo" -->
 <div id="correo" class="container" style="display: none;">
     <h4 class="title">Dirección de envío</h4>
@@ -123,18 +138,19 @@
 </div>
 
 <script>
-    // Función para mostrar u ocultar el div y el botón basado en el radio button seleccionado
+    // Función para mostrar u ocultar los campos de correo electrónico y teléfono basado en el radio button seleccionado
     function toggleCorreoDivAndButton() {
         var enviarCorreo = document.getElementById('enviarCorreo');
+        var retiroPuntosEncuentro = document.getElementById('retiroPuntosEncuentro');
         var correoDiv = document.getElementById('correo');
-        var checkoutButton = document.getElementById('checkoutButton');
+        var contactInputs = document.getElementById('contactInputs');  // Div que contiene los inputs de email y teléfono
         
-        if (enviarCorreo.checked) {
-            correoDiv.style.display = 'block';  // Mostrar el div de envío por correo
-            checkoutButton.style.display = 'none';  // Ocultar el botón "Continuar al checkout"
-        } else {
+        if (retiroPuntosEncuentro.checked) {
+            contactInputs.style.display = 'block';  // Mostrar los inputs de email y teléfono
             correoDiv.style.display = 'none';  // Ocultar el div de envío por correo
-            checkoutButton.style.display = 'block';  // Mostrar el botón "Continuar al checkout"
+        } else {
+            contactInputs.style.display = 'none';  // Ocultar los inputs de email y teléfono
+            correoDiv.style.display = 'block';  // Mostrar el div de envío por correo
         }
     }
 
@@ -145,10 +161,6 @@
     // Llamar a la función al cargar la página para establecer el estado inicial
     toggleCorreoDivAndButton();
 </script>
-
-
-<!--  checkbox envio end  --> 
-
 
 
 
