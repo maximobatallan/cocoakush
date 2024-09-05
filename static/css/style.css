@@ -1628,7 +1628,7 @@ ul.search-cart-area {
     .hero-bg {
        
         height: 412px; /* Establece la altura del contenedor */
-        background-image: url('../img/cel.avif');
+        background-image: url('../img/cel6.avif');
         background-size: cover; /* Fija el tamaño de la imagen de fondo a 412x412 píxeles */
         background-position: center; /* Centra la imagen de fondo */
         background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -1649,7 +1649,7 @@ ul.search-cart-area {
     position: relative;
     z-index: 2;
   
-    padding-top: 230px;
+    padding-top: 336px;
 }
 
 
@@ -2638,7 +2638,7 @@ footer .bottom-footer {
     .hero-bg-2 {
         /* Establece el ancho del contenedor */
         height: 412px; 
-        background-image: url('../img/cel1.avif');
+        background-image: url('../img/cel4.avif');
         background-size: cover; /* Fija el tamaño de la imagen de fondo a 412x412 píxeles */
         background-position: center; /* Centra la imagen de fondo */
         background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -2880,7 +2880,7 @@ footer .bottom-footer {
     .hero-bg-3 {
     
         height: 412px; 
-        background-image: url('../img/cel2.avif');
+        background-image: url('../img/cel5.avif');
         background-size: cover; /* Fija el tamaño de la imagen de fondo a 412x412 píxeles */
         background-position: center; /* Centra la imagen de fondo */
         background-repeat: no-repeat; /* Evita que la imagen se repita */
