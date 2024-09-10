@@ -622,7 +622,7 @@ h2.subtitle::after {
 .form-element button[type="submit"]:hover::after,
 .form-element input[type="submit"]:hover::after {
     -webkit-transition-property: none;
-    background-color: #F7700D;
+    background-color: #000000;
     -o-transition-property: none;
     transition-property: none;
     visibility: hidden;
@@ -1044,7 +1044,7 @@ h2.subtitle::after {
     position: absolute;
     left: -47px;
     background-color: #F7700D;
-    border-bottom: 3px solid #000;
+    border-bottom: 2px solid #000;
     width: 100px;
     height: 102%;
     top: 0px;
@@ -1124,7 +1124,7 @@ h2.subtitle::after {
     content: "";
     position: absolute;
     background-color: #F7700D;
-    height: 100%;
+    height: 99%;
     width: 58px;
     left: -33px;
     top: 0px;
@@ -1648,8 +1648,8 @@ ul.search-cart-area {
 .hero-txt {
     position: relative;
     z-index: 2;
+    padding: 20px;
   
-    padding-top: 336px;
 }
 
 
@@ -1663,6 +1663,7 @@ ul.search-cart-area {
 .hero-area h1 {
     font-size: 72px;
     font-weight: 700;
+    color: #F7700D;
     
     width: 100%; /* Ocupar todo el ancho disponible */
     
@@ -2204,10 +2205,11 @@ ul.search-cart-area {
     margin-bottom: 20px;
     border: none;
     border-radius: 0px;
-}
+}.form-element button[type="submit"]:hover::before, .fo
 
 .faq-section .card-header {
     padding: 0px;
+    background-color: black;
 }
 
 .faq-section .accordion .card .card-header {
@@ -2310,7 +2312,7 @@ ul.search-cart-area {
 
 .quote-form-section input[type="submit"],
 .quote-form-section button[type="submit"] {
-    padding: 12px 38px;
+    width: 100%;
     border-radius: 3px;
     background-color: #f7700d;
     position: relative;
@@ -2646,6 +2648,34 @@ footer .bottom-footer {
 }
 
 
+
+.banner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #F7700D; /* Color de fondo del banner */
+    padding-bottom: 36px;
+    padding-top: 3px;
+}
+
+.banner-text {
+    position: absolute;
+    white-space: nowrap;
+    color: #fff; /* Color del texto */
+    font-size: 24px;
+    
+    font-weight: bold;
+    animation: scrollText 15s linear infinite; /* Animación de desplazamiento */
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%); /* Comienza fuera de la pantalla a la derecha */
+    }
+    100% {
+        transform: translateX(-100%); /* Termina fuera de la pantalla a la izquierda */
+    }
+}
 
 
 .home-2.hero-area {
@@ -4064,7 +4094,7 @@ ul.overview-points li::before {
     width: 120px;
 }
 
-
+.hero-area h1
 /*---------------------------
 ** Blogs Grid Sidebar Page CSS
 ---------------------------*/
@@ -4434,6 +4464,7 @@ ul.overview-points li::before {
 
 .single-pic .txt-icon {
     position: absolute;
+    cursor: pointer;
     width: 100%;
     height: 100%;
     top: 0px;
@@ -5074,13 +5105,18 @@ div#map {
     color: #F7700D;
 }
 
+
+.talle-selection {
+    font-size: 14px;
+}
+
 .single-product .content {
     text-align: center;
-    padding: 27px 20px 30px;
+    padding: 27px 5px 30px;
 }
 
 .single-product .content h4.title {
-    font-size: 20px;
+    font-size: 14px;
     margin-bottom: 0px;
 }
 
@@ -5118,13 +5154,13 @@ div#map {
 
 .single-product button.addtocart {
     border: 1px solid #F7700D;
-    padding: 8px 0px;
+    font-size: 12px;
     background-color: #F7700D;
     color: #000;
     text-transform: uppercase;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 20px;
+    
     -webkit-transition: .5s;
     transition: .5s;
 }
@@ -5235,12 +5271,12 @@ div#map {
 
 .filter.category ul li {
     position: relative;
-    padding-left: 20px;
+ 
 }
 
 .filter.category ul li::before {
     position: absolute;
-    content: "\f101";
+   
     font-family: "Font Awesome 5 Free";
     font-weight: 600;
     color: #F7700D;
@@ -5587,7 +5623,7 @@ div#map {
 }
 
 .product-details .content h4.title {
-    font-size: 22px;
+    font-size: 18px;
     text-transform: uppercase;
     font-weight: 600;
     color: #F7700D;
@@ -5655,7 +5691,7 @@ div#map {
     padding: 5px 0px;
     padding-left: 10px;
     border-radius: 2px;
-    border: 1px solid #F7700DF7700D2a;
+    border: 1px solid #f7700d;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -5670,7 +5706,7 @@ div#map {
 ---------------------------*/
 
 .product-details {
-    padding: 120px 0px;
+    padding: 15px 0px;
 }
 
 .product-details .product-preview {
@@ -6016,6 +6052,7 @@ div#map {
 a.cartbtn,
 button.cartbtn {
     border: none;
+    position: fixed;
     text-transform: uppercase;
     background-color: #F7700D;
     border: 1px solid #000000;
@@ -6037,6 +6074,94 @@ button.cartbtn {
     border: 1px solid #F7700D;
     color: #F7700D;
 }
+
+
+a.cartbtn2,
+button.cartbtn2 {
+    border: none;
+    position: fixed;
+    text-transform: uppercase;
+    background-color: #F7700D;
+    border: 1px solid #000000;
+    color: #000;
+    display: inline-block;
+    font-family: 'gillsansmt';
+    font-size: 18px;
+    font-weight: 600;
+    padding: 6px 25px;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+
+
+.cartbtn2:hover {
+    background-color: #000000;
+    border: 1px solid #F7700D;
+    color: #F7700D;
+}
+
+a.cartbtn3,
+button.cartbtn3 {
+    position: absolute;
+    top: 105%;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    display: block; /* Asegura que el botón ocupe toda la línea */
+    width: 100%; /* Ocupa el 100% del ancho disponible */
+    
+    border: none;
+    text-transform: uppercase;
+    background-color: #F7700D;
+    border: 1px solid #000000;
+    color: #000;
+    font-family: 'gillsansmt';
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.cartbtn3:hover {
+    background-color: #000000;
+    border: 1px solid #F7700D;
+    color: #F7700D;
+}
+
+
+
+a.cartbtn1,
+button.cartbtn1 {
+    border: none;
+    position: fixed;
+    text-transform: uppercase;
+    background-color: #F7700D;
+    border: 1px solid #000000;
+    color: #000;
+    display: inline-block;
+    font-family: 'gillsansmt';
+    font-size: 10px;
+    font-weight: 600;
+    
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+
+.cartbtn1:hover {
+    background-color: #000000;
+    border: 1px solid #F7700D;
+    color: #F7700D;
+}
+
+
 
 a.cartbtn.shop {
     background-color: #F7700D;
