@@ -1,5 +1,3 @@
-{% load static %}
-
 <div class="service-section">
     <div class="container">
         <div class="service-carousel owl-carousel owl-theme">
@@ -9,6 +7,8 @@
                         <a href="{% url 'catproducto' cate.cat %}" style="cursor: pointer;">
                             <img src="{% static 'img/' %}{{ cate.cat }}1.avif" alt="{{ cate.nombre }}" width="20" style="position: relative; z-index: 10;">
                         </a>
+                        <!-- Botón centrado -->
+                        <button class="cartbtn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20;">Añadir al carrito</button>
                     </div>
                 </div>
             {% endfor %}

@@ -29,12 +29,11 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="product-preview">
-                        <div class="easyzoom easyzoom--overlay">
-                            <a href="#">
-                                <img class="single-image" src="#" alt=""/>
-                            </a>
+                        <div>
+                            <img class="single-image" src="#" alt=""/>
                         </div>
                     </div>
+                  
                     <div class="product-thumb-slider owl-carousel owl-theme">
                         <div class="single-product">
                             <img class="small" src="https://imgpaginasweb.s3.sa-east-1.amazonaws.com/{{ producto.imagen }}" alt="{{ producto.nombre }}" width="100">
@@ -57,12 +56,12 @@
                 <div class="col-lg-7">
                     <div class="content">
                         <h4 class="title">{{ producto.nombre }}</h4>
-                        <div class="rate">
+                       
                             <div class="rating" style="width:100%"></div>
-                        </div>
+                 
                        
                         <div class="price">
-                            <span style="font-size: 45px;">${{ producto.precio }}</span>
+                            <span style="font-size: 30px;">${{ producto.precio }}</span>
                          
                         </div>
                         <div class="desc">
@@ -122,12 +121,7 @@
                                                 <button type="submit" name="submit_post" formaction="{% url 'Add' producto.id %}" class="wishlist">Agregar al carrito</button>
                                             </form>
                                         </div>
-                                        <div class="col-lg-4"></div>
-                                        <div class="col-lg-4">
-                                            <button name="submit_post" formaction="{% url 'Add' producto.id %}">
-                                                <i class="fas fa-shopping-cart"></i>Ir a Pagar
-                                            </button>
-                                        </div>
+                                        
                                     {% else %}
                                         <div class="col-lg-4">
                                            
@@ -224,7 +218,7 @@
     <!-- pricing-range js -->
     <script src="{% static 'js/pricing-range.js' %}"></script>
     <!-- easyzoom js -->
-    <script src="{% static 'js/easyzoom.js' %}"></script>
+   
     <!-- rateyo js -->
     <script src="{% static 'js/jquery.rateyo.min.js' %}"></script>
     <!-- slicknav js -->
