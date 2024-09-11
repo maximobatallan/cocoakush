@@ -225,11 +225,7 @@
         });
 
         // product image zoom initialization function
-        function initzoom() {
-            if ($('.easyzoom').length > 0) {
-                var $easyzoom = $('.easyzoom').easyZoom();
-            }
-        }
+   
 
 
         // Product preview
@@ -241,7 +237,7 @@
 
             $('.product-details .product-thumb-slider img.small').on('click', function () {
                 let currimg = `<div class="easyzoom easyzoom--overlay">
-                                <a href="${$(this).siblings('img.big').attr('src')}">
+                                <a>
                                     <img class="single-image" src="${$(this).attr('src')}" alt=""/>
                                 </a>
                               </div>`;
