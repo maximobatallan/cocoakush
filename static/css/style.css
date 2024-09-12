@@ -6133,6 +6133,35 @@ button.cartbtn3 {
     color: #F7700D;
 }
 
+a.cartbtn4,
+button.cartbtn4 {
+    position: absolute;
+    
+    left: 50%;
+    transform: translateX(-50%);
+    
+    display: block; /* Asegura que el botón ocupe toda la línea */
+    width: 30%; /* Ocupa el 100% del ancho disponible */
+    
+    border: none;
+    text-transform: uppercase;
+    background-color: #F7700D;
+    border: 1px solid #000000;
+    color: #000;
+    font-family: 'gillsansmt';
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.cartbtn4:hover {
+    background-color: #000000;
+    border: 1px solid #F7700D;
+    color: #F7700D;
+}
 
 
 a.cartbtn1,
