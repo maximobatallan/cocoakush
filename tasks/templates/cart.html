@@ -94,8 +94,9 @@
 
             
             <!-- Checkbox envío start -->
-<div class="container" style="padding-bottom: 20px;">
+<div class="container" style="padding-bottom: 50px;">
     <!-- Cambiar método a POST -->
+     
     <form method="post" action="/checkout/" id="checkoutForm">
         {% csrf_token %}
         <label>
@@ -110,6 +111,7 @@
         <br>
 
         <!-- Campos de correo electrónico y teléfono inicialmente ocultos -->
+        <div class="form-element">
         <div id="contactInputs" style="display: block;">
             <label for="email">Email de contacto:</label>
             <input type="email" name="email" id="email" placeholder="Ingrese su email" required>
@@ -118,8 +120,9 @@
             <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su teléfono" required>
             <br>
         </div>
+         </div>
 
-        <button type="submit" class="cartbtn cart" id="checkoutButton">Continuar al Checkout</button>
+        <button type="submit" class="cartbtn4" id="checkoutButton">Continuar al Checkout</button>
     </form>
 </div>
 
@@ -143,14 +146,19 @@
         var enviarCorreo = document.getElementById('enviarCorreo');
         var retiroPuntosEncuentro = document.getElementById('retiroPuntosEncuentro');
         var correoDiv = document.getElementById('correo');
-        var contactInputs = document.getElementById('contactInputs');  // Div que contiene los inputs de email y teléfono
+        var contactInputs = document.getElementById('contactInputs');
+        var checkoutButton = document.getElementById('checkoutButton');  // Div que contiene los inputs de email y teléfono
         
         if (retiroPuntosEncuentro.checked) {
             contactInputs.style.display = 'block';  // Mostrar los inputs de email y teléfono
-            correoDiv.style.display = 'none';  // Ocultar el div de envío por correo
+            correoDiv.style.display = 'none';
+            checkoutButton.style.display = 'block';
+            
+              // Ocultar el div de envío por correo
         } else {
             contactInputs.style.display = 'none';  // Ocultar los inputs de email y teléfono
-            correoDiv.style.display = 'block';  // Mostrar el div de envío por correo
+            correoDiv.style.display = 'block';
+            checkoutButton.style.display = 'none';  // Mostrar el div de envío por correo
         }
     }
 

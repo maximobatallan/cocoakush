@@ -65,7 +65,7 @@
                          
                         </div>
                         <div class="desc">
-                            <p style="font-size: 20px;">{{ producto.descripcion }}</p>
+                            <p style="font-size: 14px;">{{ producto.descripcion }}</p>
                         </div>
                         <form method="POST" class="product-details-form" action="{% url 'signin' %}">
                             {% csrf_token %}
@@ -202,6 +202,8 @@
                                     </tr>
                                 
                                 </tbody>
+
+
                             </table>
                         </div>
                     </div>
