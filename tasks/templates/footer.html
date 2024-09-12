@@ -20,10 +20,13 @@
                         </ul>
                      </div>
                      <div class="col-xl-3 col-lg-2">
-                        <h4>Nuestros Productos</h4>
+                        <h4>Nuestras prendas</h4>
                         <ul class="userful-links">
-                           <li><a  href=#galeria>Remeras</a></li>
-                           <li><a  href=#galeria>Buzos</a></li>
+                            {% for cate in cat %}
+                                        
+
+                                          <li><a href="{% url 'catproducto' cate.cat %}">{{ cate.cat }}</a></li>
+                                          {% endfor %}
     
                            
                            
