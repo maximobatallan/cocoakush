@@ -1648,7 +1648,8 @@ ul.search-cart-area {
 .hero-txt {
     position: relative;
     z-index: 2;
-    padding: 20px;
+    padding-top: 150px;
+
   
 }
 
@@ -1661,8 +1662,9 @@ ul.search-cart-area {
 }
 
 .hero-area h1 {
-    font-size: 72px;
+    font-size: 60px;
     font-weight: 700;
+    background-color: black;
     color: #F7700D;
     
     width: 100%; /* Ocupar todo el ancho disponible */
